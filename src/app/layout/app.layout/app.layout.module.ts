@@ -6,6 +6,7 @@ import { AppSidebarComponent } from './app.sidebar/app.sidebar.component';
 import { AppMenuComponent } from './app.menu/app.menu.component';
 import { AppMenuitemComponent } from './app.menu/app.menuitem.component';
 import { RouterModule } from '@angular/router';
+import { AppConfigModule } from '../config/app.config/app.config.module';
 
 
 
@@ -20,7 +21,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    AppConfigModule
   ]
 })
 export class AppLayoutModule { }

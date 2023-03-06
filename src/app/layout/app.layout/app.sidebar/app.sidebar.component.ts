@@ -1,6 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
 import { AppLayoutService } from '../../service/app.layout.service';
-import { RouterModule } from '@angular/router';
 
 
 @Component({
