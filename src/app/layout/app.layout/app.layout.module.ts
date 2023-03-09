@@ -7,6 +7,7 @@ import { AppMenuComponent } from './app.menu/app.menu.component';
 import { AppMenuitemComponent } from './app.menu/app.menuitem.component';
 import { RouterModule } from '@angular/router';
 import { AppConfigModule } from '../config/app.config/app.config.module';
+import { AppLayoutRoutingModule } from './app.layout-routing.module';
 
 
 
@@ -22,7 +23,11 @@ import { AppConfigModule } from '../config/app.config/app.config.module';
   imports: [
     CommonModule,
     RouterModule,
-    AppConfigModule
+    AppConfigModule,
+    AppLayoutRoutingModule
+  ],
+  exports: [
+    AppTopbarComponent,
   ]
 })
 export class AppLayoutModule { }
