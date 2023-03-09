@@ -23,6 +23,6 @@ import { AppConfigComponent } from './app.config.component';
   ],
   exports: [
     AppConfigComponent
-]
+  ]
 })
 export class AppConfigModule { }

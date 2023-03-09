@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuService } from './app.menu.service';
 import { AppLayoutService } from '../../service/app.layout.service';
-import { RouterModule } from '@angular/router';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
