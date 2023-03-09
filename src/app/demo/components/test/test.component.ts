@@ -27,8 +27,7 @@ export class TestComponent implements OnInit{
     this.apiService.verifyEmail(this.token)
       .subscribe(response => {
         // Redirect to the home page or any other page
-        window.location.href = response.headers.get('Location');
-        console.log(response.headers.get('Location'));
+        window.location.href = response.url;
       },
       error => {
         console.log(error);
