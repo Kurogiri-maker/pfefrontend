@@ -7,7 +7,14 @@ import { RegisterService } from './service/register-service.service';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styles: [`
+        :host ::ng-deep .pi-eye,
+        :host ::ng-deep .pi-eye-slash {
+            transform:scale(1.6);
+            margin-right: 1rem;
+            color: var(--primary-color) !important;
+        }
+    `]
 })
 export class SignUpComponent {
   registerForm: FormGroup = new FormGroup({
