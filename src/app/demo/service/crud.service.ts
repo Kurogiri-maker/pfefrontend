@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CrudService {
 
+  private documentsColumns:any[] = [];
+
   apiUrl = "http://localhost:8086/api/csv"
 
   constructor(private http: HttpClient) { }
@@ -22,6 +24,10 @@ export class CrudService {
 
   saveDocument(formattedData: any,data:string):Observable<any> {
     return this.http.post(`${this.apiUrl}/${data}`, formattedData);
+  }
+
+  updateDocument(object:any ,data:string){
+    return this.http.patch(`${this.apiUrl}/${data}/${object[0]}`,Object);
   }
 
   deleteDocument(IdDocument:any,data:string):Observable<any>{

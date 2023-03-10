@@ -11,6 +11,8 @@ export class CrudComponent implements OnInit {
 
     documentDialog: boolean = false;
 
+    editDocumentDialog:boolean =false;
+
     deleteDocumentDialog: boolean = false;
 
     deleteDocumentsDialog: boolean = false;
@@ -91,6 +93,14 @@ export class CrudComponent implements OnInit {
       this.submitted=false;
     }
 
+     // hide the dialog
+     hideEditDialog(){
+      this.formData={};
+      this.editDocumentDialog=false;
+      this.submitted=false;
+    }
+
+
     // save a document
     saveDocument(){
       const val=this.valSelect.name;
@@ -115,11 +125,13 @@ export class CrudComponent implements OnInit {
             console.log("Error :" + error);
           }
         );
+        this.getDocuments();
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Created', life: 3000 });
       }
       this.formData={};
       this.submitted=false;
       this.documentDialog=false;
+
     }
 
     // update a document
@@ -131,6 +143,39 @@ export class CrudComponent implements OnInit {
       console.log(this.formData);
       this.documentDialog=true;
     }
+
+    //update a document
+    updateDocument(){
+      const val=this.valSelect.name;
+      let data=val.charAt(0).toLowerCase() + val.slice(1);
+      this.submitted=true;
+      this.documentsColumns.forEach(col => {
+        this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
+        if(!this.formData[col.field]){
+          this.submitted=false;
+          return;
+        }
+      });
+      if(!this.submitted){
+        this.messageService.add({severity:'error', summary:'error', detail: 'Field missing', life: 3000});
+        return;
+      }else{
+        this.crud.updateDocument(this.formattedData.entity,data).subscribe(
+          response => {
+            console.log("Response status :" + response);
+          },
+          error => {
+            console.log("Error :" + error);
+          }
+        );
+        this.getDocuments();
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Updated', life: 3000 });
+      }
+      this.formData={};
+      this.submitted=false;
+      this.editDocumentDialog=false;
+    }
+    
 
     // delete a document
     deleteDocument(document:any){

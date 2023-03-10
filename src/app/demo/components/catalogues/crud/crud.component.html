@@ -69,6 +69,19 @@
                 </ng-template>
             </p-dialog>
 
+            <p-dialog [(visible)]="editDocumentDialog" [style]="{width: '450px'}" header="Document Details" [modal]="true" class="p-fluid">
+                <div class="field" *ngFor="let col of documentsColumns">
+                    <label for="{{col.field}}">{{col.header}}</label>
+                    <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus >
+                    <small class="ng-dirty ng-invalid" *ngIf=" submitted && !formData[col.field]">{{col.header}} is required.</small>   
+                </div>
+    
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideEditDialog()" ></button>
+                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateDocument()" ></button>
+                </ng-template>
+            </p-dialog>
+
             <p-dialog [(visible)]="deleteDocumentDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
                 <div class="flex align-items-center justify-content-center">
                     <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
