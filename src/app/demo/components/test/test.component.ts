@@ -1,7 +1,6 @@
 import { ApiService } from './../../service/api.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-test',
