@@ -33,7 +33,7 @@ export class SignUpComponent {
         (response) => {
           if (response.success) {
             console.log("Sign Up Successful");
-            this.router.navigate(['']);
+            this.router.navigate(['auth/register/verif']);
           }
           else {
             if (response.exists) {

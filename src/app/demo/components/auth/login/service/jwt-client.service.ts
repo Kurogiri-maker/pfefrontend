@@ -28,23 +28,37 @@ export class JwtClientService {
         }));
   }
 
-  public login(request: AuthRequest): Observable<boolean> {
+  public login(request: AuthRequest): Observable<{ success: boolean, error: string }> {
     return this.generateToken(request).pipe(
       map((response: any) => {
         if (response.status === 200) {
           console.log(response.body.token);
           this.cookieService.set("token", response.body.token);
-          return true;
+          return { success: true, error: "" };
+        }
+        else if (response.status === 400) {
+          if (response.error.error === "Bad credentials") {
+            console.log("Bad credentials");
+            return { success: false, error: "Bad credentials" };
+          }
+          else if (response.error.error === "User is disabled") {
+            console.log("User is disabled");
+            return { success: false, error: "User is disabled" };
+          }
+          else {
+            console.log("response.error.error");
+            return { success: false, error: response.error.error };
+          }
+
         }
         else {
-          console.log("Invalid Credentials");
-          return false;
+          throw new Error("Unexpected response status: " + response.status);
         }
       }
       ),
       catchError(error => {
         console.log("Error occurred during login:", error);
-        return of(false);
+        return of({ success: false, error: "" });
       })
     );
   }

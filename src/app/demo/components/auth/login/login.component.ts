@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
 
 export class LoginComponent {
   failedLogin: boolean = false;
+  disabled: boolean = false;
   signinForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
@@ -32,24 +33,33 @@ export class LoginComponent {
   constructor(private jwtClientService: JwtClientService, private router: Router) { }
 
   onSubmit() {
+    this.failedLogin = false;
+    this.disabled = false;
     this.authRequest.email = this.signinForm.get('email')?.value;
     this.authRequest.password = this.signinForm.get('password')?.value;
     console.log(this.authRequest);
     this.jwtClientService.login(this.authRequest).subscribe(
       (response) => {
-        if (response) {
+        if (response.success) {
           console.log("Login Successful");
           this.router.navigate(['']);
         }
         else {
-          this.failedLogin = true;
-          console.log("Login Failed");
+          if (response.error === "Bad credentials") {
+            this.failedLogin = true;
+            console.log("Bad Credentials");
+            console.log("123");
+          }
+          else if (response.error === "User is disabled") {
+            this.disabled = true;
+            console.log("User is disabled");
+          }
+          console.log(response);
         }
-        console.log(response);
       }
-
     );
     console.log(this.failedLogin);
+
 
   }
 

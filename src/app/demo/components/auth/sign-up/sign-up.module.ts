@@ -10,11 +10,13 @@ import { ButtonModule } from 'primeng/button';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtClientService } from '../login/service/jwt-client.service';
 import { RegisterService } from './service/register-service.service';
+import { VerificationComponent } from './verification/verification.component';
 
 
 @NgModule({
   declarations: [
-    SignUpComponent
+    SignUpComponent,
+    VerificationComponent
   ],
   imports: [
     CommonModule,

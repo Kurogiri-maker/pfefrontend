@@ -30,9 +30,7 @@ export class RegisterService {
     return this.generateToken(request).pipe(
       map((response: any) => {
         if (response.status === 200) {
-          console.log(response.body.token);
           console.log(response.body.error);
-          this.cookieService.set("token", response.body.token);
           return { success: true, exists: false };
         }
         else if (response.status === 400) {
@@ -45,7 +43,7 @@ export class RegisterService {
       }
       ),
       catchError((error: any) => {
-        console.log("Error occurred during login:", error);
+        console.log("Error occurred during register:", error);
         return of({ success: false, exists: false });
       })
     );

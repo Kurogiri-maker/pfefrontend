@@ -19,6 +19,8 @@
 
             <div class="flex align-items-center justify-content-between mb-5 gap-5">
               <span *ngIf="failedLogin" class="help-block" style="color: red;"> Verify your credentials </span>
+              <span *ngIf="disabled" class="help-block" style="color: red;"> Check your mail and verify your
+                account </span>
             </div>
             <button pButton pRipple label="Sign In" class="w-full p-3 text-xl" (click)="onSubmit()"></button>
           </div>
