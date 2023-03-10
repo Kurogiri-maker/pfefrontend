@@ -41,6 +41,8 @@ export class CrudComponent implements OnInit {
 
     currentPage!: number;
 
+    data:string="";
+
     constructor( private crud : CrudService , private messageService:MessageService){}
 
     // Get documents after selecting a type (tier,contrat,dossier)
@@ -48,7 +50,6 @@ export class CrudComponent implements OnInit {
       const val=this.valSelect.name;
       let data=val.charAt(0).toLowerCase() + val.slice(1);
       this.crud.getDocuments(data,this.pageSize,this.currentPage).subscribe((data: any) => {
-        console.log(data.totalElements);
         this.documents = data.content;
         this.totalRecords=data.totalElements;
         this.getHeader();
@@ -85,6 +86,7 @@ export class CrudComponent implements OnInit {
 
     // hide the dialog
     hideDialog(){
+      this.formData={};
       this.documentDialog=false;
       this.submitted=false;
     }
@@ -181,11 +183,14 @@ export class CrudComponent implements OnInit {
         { name: 'Contrat', value: 2 },
         { name: 'Dossier', value: 3 }
       ];
+      
 
       this.pageSize=10;
       this.currentPage=0;
 
       this.getDocuments();
+      
+      
     }
 
 }
