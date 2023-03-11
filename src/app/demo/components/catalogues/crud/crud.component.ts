@@ -125,12 +125,12 @@ export class CrudComponent implements OnInit {
             console.log("Error :" + error);
           }
         );
-        this.getDocuments();
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Created', life: 3000 });
       }
       this.formData={};
       this.submitted=false;
       this.documentDialog=false;
+      this.getDocuments();
 
     }
 

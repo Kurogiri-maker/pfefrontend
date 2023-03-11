@@ -27,10 +27,13 @@
                         <th style="width: 3rem">
                             <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
-                            {{col.header}}
-                             <p-sortIcon field="{{col.field}}">
-                             </p-sortIcon>
+                        <th *ngFor="let col of columns" [pSortableColumn]="col.field"  >
+                            <div style="display: flex;">
+                                <span >{{col.header}}</span>
+                                <p-sortIcon field="{{col.field}}"  >
+                                </p-sortIcon>
+                            </div>
+                           
                             </th>
                         <th></th>
                     </tr>
