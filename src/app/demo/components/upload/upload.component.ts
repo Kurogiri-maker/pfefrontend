@@ -1,4 +1,4 @@
-import { Component,OnInit , OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpEvent , HttpEventType } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { FileUploadService } from '../../service/file-upload.service';
@@ -13,6 +13,8 @@ import { Message } from 'primeng/api';
   providers: [MessageService , FileUploadService]
 })
 export class UploadComponent implements OnInit, OnDestroy {
+
+  @ViewChild('fileUpload') fileUpload: any;
 
   uploadMessages: Message[] = [];
 
@@ -35,6 +37,7 @@ export class UploadComponent implements OnInit, OnDestroy {
       (event: HttpEvent<any>) => {
         if (event.type === HttpEventType.Response) {
           const message = event.body.message; // get the message from the response body
+          this.fileUpload.clear();
           this.uploadMessages = [{severity:'success', summary:'Success', detail: message}];
           setTimeout(() => {
             this.uploadMessages = [];
@@ -43,6 +46,7 @@ export class UploadComponent implements OnInit, OnDestroy {
       },
       (error) => {
         const message = error.error.message; // get the message from the error response
+        this.fileUpload.clear();
         this.uploadMessages = [{severity:'error', summary:'Error', detail: message}];
       }
     );

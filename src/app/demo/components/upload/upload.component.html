@@ -8,7 +8,7 @@
             </div>
             <h5>Upload a csv file :</h5>
             <!-- <p-fileUpload name="file"   url="http://localhost:8086/api/csv/tier/upload" (onUpload)="onUpload($event)" -->
-            <p-fileUpload name="file"   [customUpload]="true" (uploadHandler)="onUpload($event)"
+            <p-fileUpload #fileUpload  name="file"   [customUpload]="true" (uploadHandler)="onUpload($event)"
                                 [multiple]="false" accept="text/csv" [maxFileSize]="1000000" >
             </p-fileUpload>
             <p-messages [(value)]="uploadMessages"></p-messages>
