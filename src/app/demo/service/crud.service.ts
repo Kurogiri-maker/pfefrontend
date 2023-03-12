@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import long from 'long';
 
 
 @Injectable({
@@ -8,7 +9,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CrudService {
 
-  private documentsColumns:any[] = [];
 
   apiUrl = "http://localhost:8086/api/csv"
 
@@ -27,7 +27,8 @@ export class CrudService {
   }
 
   updateDocument(object:any ,data:string){
-    return this.http.patch(`${this.apiUrl}/${data}/${object[0]}`,Object);
+    
+    return this.http.patch(`${this.apiUrl}/${data}/${object.id}`,object);
   }
 
   deleteDocument(IdDocument:any,data:string):Observable<any>{

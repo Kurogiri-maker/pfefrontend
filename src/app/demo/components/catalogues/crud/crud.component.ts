@@ -39,11 +39,10 @@ export class CrudComponent implements OnInit {
 
     totalRecords !:number;
 
-    pageSize!: number;
+    pageSize : number =10;
 
-    currentPage!: number;
+    currentPage: number =0;
 
-    data:string="";
 
     constructor( private crud : CrudService , private messageService:MessageService){}
 
@@ -67,7 +66,8 @@ export class CrudComponent implements OnInit {
         this.documentsColumns=Object.values(metadata).map((key) => {
           return { field: key , header: key.charAt(0).toUpperCase() + key.slice(1) };
         });
-        // this.documentsColumns.shift();
+        console.log(this.documentsColumns);
+        this.documentsColumns.shift();
       });
     }
 
@@ -120,6 +120,7 @@ export class CrudComponent implements OnInit {
         this.crud.saveDocument(this.formattedData.entity,data).subscribe(
           response => {
             console.log("Response status :" + response);
+
           },
           error => {
             console.log("Error :" + error);
@@ -130,18 +131,20 @@ export class CrudComponent implements OnInit {
       this.formData={};
       this.submitted=false;
       this.documentDialog=false;
-      this.getDocuments();
+      
 
     }
 
     // update a document
     editDocument(document:any){
       console.log(document);
+      this.formData["id"]=document["id"];
       this.documentsColumns.forEach(col => {
         this.formData[col.field] = document[col.field];
       });
       console.log(this.formData);
-      this.documentDialog=true;
+      this.document = {};
+      this.editDocumentDialog=true;
     }
 
     //update a document
@@ -160,31 +163,33 @@ export class CrudComponent implements OnInit {
         this.messageService.add({severity:'error', summary:'error', detail: 'Field missing', life: 3000});
         return;
       }else{
+        console.log(this.formattedData.entity);
         this.crud.updateDocument(this.formattedData.entity,data).subscribe(
           response => {
             console.log("Response status :" + response);
+            // this.crud.getDocuments(data,this.pageSize,this.currentPage).subscribe((documents : any[]) => {
+            //   this.documents=documents;
+            // });
+            
           },
           error => {
             console.log("Error :" + error);
           }
         );
-        this.getDocuments();
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Updated', life: 3000 });
       }
       this.formData={};
       this.submitted=false;
       this.editDocumentDialog=false;
+      
+
     }
     
 
     // delete a document
     deleteDocument(document:any){
-      const val=this.valSelect.name;
-      let data=val.charAt(0).toLowerCase() + val.slice(1);
+      this.document=document;
       this.deleteDocumentDialog=true;
-      this.crud.deleteDocument(document.id,data).subscribe((response) => {
-        console.log(response);
-      });
 
     }
 
@@ -194,9 +199,15 @@ export class CrudComponent implements OnInit {
 
     // Confirm the delete and refresh the table
     confirmDelete() {
+      const val=this.valSelect.name;
+      let data=val.charAt(0).toLowerCase() + val.slice(1);
+      this.crud.deleteDocument(this.document.id,data).subscribe((response) => {
+        console.log(response);
+        this.getDocuments();
+      });
+      this.document={};
       this.deleteDocumentDialog = false;
       this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Deleted', life: 3000 });
-      this.getDocuments();
     }
 
 
@@ -229,10 +240,6 @@ export class CrudComponent implements OnInit {
         { name: 'Dossier', value: 3 }
       ];
       
-
-      this.pageSize=10;
-      this.currentPage=0;
-
       this.getDocuments();
       
       
