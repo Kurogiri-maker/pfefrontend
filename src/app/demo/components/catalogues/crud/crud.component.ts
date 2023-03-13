@@ -1,6 +1,7 @@
 import { MessageService } from 'primeng/api';
 import { CrudService } from './../../../service/crud.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
 
 @Component({
   selector: 'app-crud',
@@ -8,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./crud.component.css']
 })
 export class CrudComponent implements OnInit {
+
+    @ViewChild('table') table!: Table;
+
 
     documentDialog: boolean = false;
 
@@ -21,7 +25,7 @@ export class CrudComponent implements OnInit {
 
     selectedDocuments: any[] = [];
 
-    document: any;
+    document: any = {};
 
     documentsColumns: any[] = [] ;
 
@@ -117,14 +121,11 @@ export class CrudComponent implements OnInit {
         this.messageService.add({severity:'error', summary:'error', detail: 'Field missing', life: 3000});
         return;
       }else{
-        this.crud.saveDocument(this.formattedData.entity,data).subscribe(
-          response => {
-            console.log("Response status :" + response);
-
-          },
-          error => {
-            console.log("Error :" + error);
-          }
+        this.crud.saveDocument(this.formData,data).subscribe({
+          next: (response) => console.log("Response status :" + response),
+          error : ( error ) => console.log("Error :" + error),
+          complete :() => this.getDocuments()
+        }
         );
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Created', life: 3000 });
       }
@@ -144,6 +145,7 @@ export class CrudComponent implements OnInit {
       });
       console.log(this.formData);
       this.document = {};
+      console.log(this.document);
       this.editDocumentDialog=true;
     }
 
@@ -163,26 +165,20 @@ export class CrudComponent implements OnInit {
         this.messageService.add({severity:'error', summary:'error', detail: 'Field missing', life: 3000});
         return;
       }else{
-        console.log(this.formattedData.entity);
-        this.crud.updateDocument(this.formattedData.entity,data).subscribe(
-          response => {
-            console.log("Response status :" + response);
-            // this.crud.getDocuments(data,this.pageSize,this.currentPage).subscribe((documents : any[]) => {
-            //   this.documents=documents;
-            // });
-            
-          },
-          error => {
-            console.log("Error :" + error);
-          }
+        this.crud.updateDocument(this.formData,data).subscribe({
+          next: (response) => console.log("Response status :" + response),
+          error : ( error ) => console.log("Error :" + error),
+          complete :() => this.getDocuments()
+        }
+          
         );
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Updated', life: 3000 });
       }
       this.formData={};
       this.submitted=false;
       this.editDocumentDialog=false;
-      
 
+  
     }
     
 
