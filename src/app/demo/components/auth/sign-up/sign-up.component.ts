@@ -36,8 +36,25 @@ export class SignUpComponent {
         this.register.lastName = this.registerForm.get('lastName')?.value,
         this.register.email = this.registerForm.get('email')?.value,
         this.register.password = this.registerForm.get('password')?.value
-      this.registeryService.signUp(this.register).subscribe(
-        (response) => {
+      // this.registeryService.signUp(this.register).subscribe(
+      //   (response) => {
+      //     if (response.success) {
+      //       console.log("Sign Up Successful");
+      //       this.router.navigate(['auth/register/verif']);
+      //     }
+      //     else {
+      //       if (response.exists) {
+      //         this.userExists = true;
+      //         console.log("User Already Exists");
+      //       }
+      //       else {
+      //         console.log("Sign Up Failed");
+      //       }
+      //     }
+      //   }
+      // );
+      this.registeryService.signUp(this.register).subscribe({
+        next: (response) => {
           if (response.success) {
             console.log("Sign Up Successful");
             this.router.navigate(['auth/register/verif']);
@@ -51,7 +68,10 @@ export class SignUpComponent {
               console.log("Sign Up Failed");
             }
           }
-        }
+        },
+        error: (error) => console.log("Error :" + error),
+        complete: () => console.log("Completed")
+      }
       );
     }
     else {
