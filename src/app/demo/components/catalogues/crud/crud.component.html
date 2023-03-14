@@ -3,7 +3,7 @@
         <div class="card px-6 py-6">
             <div class="card card-bg" >
                 <h5>Select a type : </h5>
-                <p-selectButton [options]="documentsOptions" [(ngModel)]="valSelect"  optionLabel="name" (onChange)="getDocuments()"></p-selectButton>
+                <p-selectButton [options]="documentsOptions" [(ngModel)]="valSelect"  optionLabel="name" (onChange)="currentPage=0;getDocuments()"></p-selectButton>
             </div>
             <p-toast></p-toast>
             <p-toolbar styleClass="mb-4">
