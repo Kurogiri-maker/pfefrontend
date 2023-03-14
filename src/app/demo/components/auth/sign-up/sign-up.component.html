@@ -28,8 +28,12 @@
 
             <label for="password2" class="block text-900 font-medium text-xl mb-2">Password Confirmation</label>
             <p-password id="password1" formControlName="confirmPassword" placeholder="Confirm Your Password"
-              [toggleMask]="false" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem" [feedback]="false"></p-password>
-
+              [toggleMask]="true" styleClass="mb-5" inputStyleClass="w-full p-3 md:w-30rem"
+              [feedback]="false"></p-password>
+            <div>
+              <span *ngIf=" registerForm.get('confirmPassword')?.value !==registerForm.get('password')?.value "
+                class="help-block" style="color: red;">*Passwords does not matches</span>
+            </div>
             <div class="flex align-items-center justify-content-between mb-5 gap-5">
               <span *ngIf="userExists" class="help-block" style="color: red;"> This user is already registred </span>
               <span *ngIf="invalidForm" class="help-block" style="color: red;"> Please fill in the form </span>
