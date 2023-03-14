@@ -43,9 +43,9 @@ export class CrudComponent implements OnInit {
 
     totalRecords !:number;
 
-    pageSize : number =10;
+    pageSize !: number ;
 
-    currentPage: number =0;
+    currentPage!: number;
 
 
     constructor( private crud : CrudService , private messageService:MessageService){}
@@ -236,6 +236,8 @@ export class CrudComponent implements OnInit {
         { name: 'Dossier', value: 3 }
       ];
       
+      this.pageSize=10;
+      this.currentPage=0;
       this.getDocuments();
       
       
