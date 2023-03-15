@@ -35,4 +35,8 @@ export class CrudService {
     return this.http.delete(`${this.apiUrl}/${data}/${IdDocument}`);
   }
 
+  search(searchTerm:string,data:string){
+    return this.http.get<string[]>(`${this.apiUrl}/${data}/find?searchTerm=%25${searchTerm}%25`);
+  }
+
 }

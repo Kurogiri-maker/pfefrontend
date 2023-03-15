@@ -18,7 +18,7 @@
                         <h5 class="m-0">Manage Documents </h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text"  placeholder="Search..."  class="w-full sm:w-auto"/>
+                            <input pInputText type="text" name="searchTerm" [(ngModel)]="searchTerm" (input)="search(searchTerm)" placeholder="Search..."  class="w-full sm:w-auto"/>
                         </span>
                     </div>
                 </ng-template>
@@ -43,9 +43,11 @@
                         <td>
                             <p-tableCheckbox [value]="document" ></p-tableCheckbox>
                         </td>
-                        <td style="width:14%; min-width:10rem;" *ngFor="let col of columns">
+                        
+                        <td style="width:14%; min-width:10rem;" *ngFor="let col of columns  ">
                             {{ document[col.field] }}
-                          </td>
+                        </td>
+                        
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"  class="p-button-rounded p-button-success mr-2" (click)="editDocument(document)"></button>
