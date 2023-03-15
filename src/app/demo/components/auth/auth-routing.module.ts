@@ -15,7 +15,8 @@ import { RouterModule } from '@angular/router';
       {
         path: 'register', loadChildren: () => import('./sign-up/sign-up.module')
           .then(m => m.SignUpModule)
-      }
+      },
+      { path: 'signout', loadChildren: () => import('./sign-out/sign-out.module').then(m => m.SignOutModule) }
     ])
   ],
   exports: [RouterModule]
