@@ -47,6 +47,8 @@ export class CrudComponent implements OnInit {
 
   currentPage!: number;
 
+  searchTerm!: string;
+
 
   constructor(private crud: CrudService, private messageService: MessageService) { }
 
@@ -225,6 +227,18 @@ export class CrudComponent implements OnInit {
 
   cancel() {
     this.deleteDocumentDialog = true;
+  }
+
+  search(value: string): void {
+    const val = this.valSelect.name;
+    let data = val.charAt(0).toLowerCase() + val.slice(1);
+    this.crud.search(this.searchTerm, data).subscribe({
+      next: value => {
+        this.documents = value;
+      },
+      error: err => console.error(err),
+      complete: () => { }
+    });
   }
 
 
