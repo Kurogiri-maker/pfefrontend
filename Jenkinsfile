@@ -18,5 +18,6 @@ pipeline {
                 // Install project dependencies using npm
                 sh 'npm install'
             }
+        }
     }
 }
