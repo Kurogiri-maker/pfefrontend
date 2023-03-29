@@ -19,5 +19,14 @@ pipeline {
                 sh 'npm install'
             }
         }
+
+        stage('Test') {
+            steps {
+                // Run linting using the ESLint plugin
+                eslint pattern: 'src/**/*.ts'
+            }
+        }
+
+        
     }
 }
