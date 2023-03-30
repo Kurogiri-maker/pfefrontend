@@ -26,17 +26,25 @@ pipeline {
                 // Run linting using the ESLint plugin
                 esLint pattern: 'src/**/*.ts'
 
-                // Run the test script and generate JUnit XML files
-                karma(configFile: 'karma.conf.js')
+            }
+        }
+
+        // Build production-ready Angular application
+        stage('Build') {
+           
+            steps {
+                // Build Angular application in production mode using npm
+                sh 'npm run build -- --configuration=production'
             }
 
             post {
                 always {
-                    // Archive test results for later use
-                    junit 'test-results/**/*.xml'
+                    // Archive build artifacts for later use
+                    archiveArtifacts(artifacts: 'dist/*')
                 }
             }
         }
+
 
         
     }
