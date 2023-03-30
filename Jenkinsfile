@@ -40,7 +40,7 @@ pipeline {
             post {
                 always {
                     // Archive build artifacts for later use
-                    archiveArtifacts(artifacts: 'dist/*')
+                    archiveArtifacts(artifacts: 'dist/**/*')
                 }
             }
         }
