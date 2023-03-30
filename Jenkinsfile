@@ -59,6 +59,30 @@ pipeline {
             }
         }
 
+        stage('Push to Docker Hub') {
+            steps {
+                sh "docker push kurogirixo/frontcdz:latest"
+            }
+        }
+
+        stage('Run Docker Image') {
+            steps {
+                sh '''
+                    # Pull Docker image
+                    docker pull kurogirixo/frontcdz:latest
+
+                    # Run Docker container and get container ID
+                    container_id=$(docker run -d  --network talan kurogirixo/frontcdz:latest)
+
+                    # Wait for 6 minutes
+                    sleep 360
+
+                    # Stop Docker container
+                    docker stop $container_id
+                '''
+            }
+        }
+
 
         
     }
