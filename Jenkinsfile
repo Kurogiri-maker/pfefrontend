@@ -23,7 +23,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Run linting using the ESLint plugin
-                eslint pattern: 'src/**/*.ts'
+                esLint pattern: 'src/**/*.ts'
             }
         }
 
