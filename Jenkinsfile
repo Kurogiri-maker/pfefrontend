@@ -22,11 +22,12 @@ pipeline {
 
         stage('Test') {
             steps {
-                // Run the test script and generate JUnit XML files
-                sh 'npm test --reporters=junit '
-
+                
                 // Run linting using the ESLint plugin
                 esLint pattern: 'src/**/*.ts'
+
+                // Run the test script and generate JUnit XML files
+                karma(configFile: 'karma.conf.js')
             }
 
             post {
