@@ -45,6 +45,20 @@ pipeline {
             }
         }
 
+         stage('Docker Login') {
+            steps {
+                script {
+                    sh "docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD}"
+                }
+            }
+        }
+
+        stage('Build Docker image') {
+            steps {
+                
+            }
+        }
+
 
         
     }
