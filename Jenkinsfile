@@ -55,7 +55,7 @@ pipeline {
 
         stage('Build Docker image') {
             steps {
-                
+                sh "docker build -t kurogirixo/Frontcdz:latest ."
             }
         }
 
