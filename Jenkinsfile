@@ -23,7 +23,7 @@ pipeline {
         stage('Test') {
             steps {
                 // Run the test script and generate JUnit XML files
-                sh 'npm run test -- --reporter junit --output-dir test-results'
+                sh 'npm test '
 
                 // Run linting using the ESLint plugin
                 esLint pattern: 'src/**/*.ts'
