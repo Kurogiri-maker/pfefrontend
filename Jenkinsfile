@@ -25,6 +25,13 @@ pipeline {
                 // Run linting using the ESLint plugin
                 esLint pattern: 'src/**/*.ts'
             }
+
+            post {
+                always {
+                    // Archive test results for later use
+                    junit 'test-results/**/*.xml'
+                }
+            }
         }
 
         
