@@ -23,6 +23,12 @@ export class AppMenuComponent implements OnInit {
           { label: 'Files', icon: 'pi pi-fw pi-home', routerLink: ['crud'] },
           { label: 'sign out', icon: 'pi pi-fw pi-sign-out', routerLink: ['auth/signout'] }
         ]
+      },
+      {
+        label: 'Admin ',
+        items: [
+          {label: 'Gestion des utilisateurs' , icon: 'pi pi-fw pi-user', routerLink: ['admin']}
+        ]
       }
 
     ];

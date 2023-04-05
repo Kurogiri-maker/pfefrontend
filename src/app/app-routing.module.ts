@@ -13,12 +13,17 @@ const routes: Routes = [
     {
       path: 'crud', loadChildren: () => import('./demo/components/catalogues/crud/crud.module')
         .then(m => m.CrudModule)
-    },]
+    },
+    {
+      path: 'admin', loadChildren: () => import('./demo/components/admin/admin.module')
+      .then(m => m.AdminModule)
+    }]
   },
   {
     path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module')
       .then(m => m.AuthModule)
-  }
+  },
+ 
 ]
 
 
