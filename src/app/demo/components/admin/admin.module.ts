@@ -5,8 +5,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { ToolbarModule } from 'primeng/toolbar';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
+import { MessageService } from 'primeng/api';
+
 
 
 @NgModule({
@@ -20,7 +26,12 @@ import { AdminComponent } from './admin.component';
     InputTextModule,
     PaginatorModule,
     ButtonModule,
-    RippleModule
-  ]
+    RippleModule,
+    ToolbarModule,
+    DialogModule,
+    ToastModule,
+    SelectButtonModule
+  ],
+  providers: [MessageService]
 })
 export class AdminModule { }

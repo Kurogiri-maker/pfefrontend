@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../service/admin.service';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-admin',
@@ -15,7 +17,8 @@ export class AdminComponent implements OnInit {
     {field : "lastName" , header : "Last Name"},
     {field : "email" , header : "email"},
     {field : "password" , header : "Password"},
-    {field : "enabled" , header : "Enabled"}
+    {field : "enabled" , header : "Enabled"},
+    {field : "role" , header : "Role"}
   ];
 
   users: any[] = [];
@@ -31,7 +34,23 @@ export class AdminComponent implements OnInit {
 
   searchTerm!: string;
 
-  constructor(private adminServ : AdminService) { }
+  formData: any = {};
+
+  selectedUsers: any[] = [];
+
+  submitted: boolean = false;
+
+  userDialog: boolean = false;
+
+  deleteUsersDialog: boolean = false;
+
+  deleteUserDialog: boolean = false;
+
+  editUserDialog: boolean = false;
+
+
+
+  constructor(private adminServ : AdminService ,  private messageService: MessageService) { }
 
 
   ngOnInit(): void {
@@ -47,6 +66,130 @@ export class AdminComponent implements OnInit {
       this.users = data.content;
       this.totalRecords = data.totalElements;
     })
+  }
+
+
+  //Open the dialog to create a new user
+  openNew(){
+    this.user = {};
+    this.submitted = false;
+    this.userDialog = true;
+  }
+  
+  // hide the dialog
+  hideDialog() {
+    this.formData = {};
+    this.userDialog = false;
+    this.submitted = false;
+  }
+
+  //Save a user 
+  saveUser(){
+    this.submitted = true;
+    this.header.forEach(col => {
+      this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
+      if (!this.formData[col.field]) {
+        this.submitted = false;
+        return;
+      }
+    });
+    if (!this.submitted) {
+      this.messageService.add({ severity: 'error', summary: 'error', detail: 'Field missing', life: 3000 });
+      return;
+    } else {
+      this.adminServ.saveUser(this.formData).subscribe({
+        next: (response) => console.log("Response status :" + response),
+        error: (error) => console.log("Error :" + error),
+        complete: () => this.getUsers()
+      });
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000 });
+    }
+
+    this.formData = {};
+    this.submitted = false;
+    this.userDialog = false;
+  }
+
+  //Open updateUser dialog
+  editUser(user: any) {
+    this.formData["id"] = user["id"];
+    this.header.forEach(col => {
+      this.formData[col.field] = user[col.field];
+    });
+    this.user = {};
+    this.editUserDialog = true;
+  }
+
+  // hide the dialog
+  hideEditDialog() {
+    this.formData = {};
+    this.editUserDialog = false;
+    this.submitted = false;
+  }
+  
+  //Update a user
+  updateUser() {
+      this.submitted = true;
+      this.header.forEach(col => {
+        this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
+        if (!this.formData[col.field]) {
+          this.submitted = false;
+          return;
+        }
+      });
+      if (!this.submitted) {
+        this.messageService.add({ severity: 'error', summary: 'error', detail: 'Field missing', life: 3000 });
+        return;
+      } else {
+        this.adminServ.updateUser(this.formData).subscribe({
+          next: (response) => console.log("Response status :" + response),
+          error: (error) => console.log("Error :" + error),
+          complete: () => this.getUsers()
+        }
+  
+        );
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
+      }
+      this.formData = {};
+      this.submitted = false;
+      this.editUserDialog = false;
+  
+  
+  }
+
+  //Delete User
+  deleteUser(user : any){
+    this.user = user;
+    this.deleteUserDialog = true;
+
+  }
+
+  // Confirm the delete and refresh the table
+  confirmDelete() {
+    this.adminServ.deleteUser(this.user.id).subscribe((response) => {
+      this.getUsers();
+    });
+    this.user = {};
+    this.deleteUserDialog = false;
+    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000 });
+  }
+
+
+  deleteSelectedUsers(){
+    this.deleteUsersDialog = true;
+  }
+
+  // Confirm the deletion fo selected documetns
+  confirmDeleteSelected() {
+    this.selectedUsers.forEach(val => {
+      this.adminServ.deleteUser(val.id).subscribe((response) => {
+        this.getUsers();
+      });
+    });
+    this.selectedUsers = [];
+    this.deleteUsersDialog = false;
+    this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Users Deleted', life: 3000 });
+  
   }
 
   // Pagination
