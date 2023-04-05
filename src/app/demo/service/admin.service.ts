@@ -17,6 +17,10 @@ export class AdminService {
     return this.http.get(`${this.apiUrl}/users?page=${currentPage}&size=${pageSize}`);
   }
 
+  getHeader(){
+    return this.http.get<string[]>(`${this.apiUrl}/attributes`)
+  }
+
   
   saveUser(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}`, data);

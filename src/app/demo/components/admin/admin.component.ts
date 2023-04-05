@@ -13,12 +13,7 @@ export class AdminComponent implements OnInit {
 
 
   header: any[] = [
-    {field : "firstName" , header : "First Name"},
-    {field : "lastName" , header : "Last Name"},
-    {field : "email" , header : "email"},
-    {field : "password" , header : "Password"},
-    {field : "enabled" , header : "Enabled"},
-    {field : "role" , header : "Role"}
+   
   ];
 
   users: any[] = [];
@@ -54,11 +49,21 @@ export class AdminComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.getHeader();
     this.pageSize = 10;
     this.currentPage = 0;
     this.getUsers();
   }
 
+  //Get Header 
+  getHeader(){
+    this.adminServ.getHeader().subscribe((metadata: string[]) => {
+      this.header = Object.values(metadata).map((key) => {
+        return { field: key, header: key.charAt(0).toUpperCase() + key.slice(1) };
+      });
+      this.header.shift();
+    })
+  }
 
   //Get Users from database 
   getUsers(){
