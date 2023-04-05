@@ -10,13 +10,7 @@ export class AdminComponent implements OnInit {
 
 
 
-  header: any[] = [
-    {field : "firstName" , header : "First Name"},
-    {field : "lastName" , header : "Last Name"},
-    {field : "email" , header : "email"},
-    {field : "password" , header : "Password"},
-    {field : "enabled" , header : "Enabled"}
-  ];
+  header: any[] = [];
 
   users: any[] = [];
 
@@ -24,14 +18,14 @@ export class AdminComponent implements OnInit {
 
   totalRecords !: number;
 
-  
+
   pageSize !: number;
 
   currentPage!: number;
 
   searchTerm!: string;
 
-  constructor(private adminServ : AdminService) { }
+  constructor(private adminServ: AdminService) { }
 
 
   ngOnInit(): void {
@@ -41,12 +35,24 @@ export class AdminComponent implements OnInit {
   }
 
 
-  //Get Users from database 
-  getUsers(){
-    this.adminServ.getUsers(this.pageSize,this.currentPage).subscribe((data : any ) => {
+  //Get Users from database
+  getUsers() {
+    this.adminServ.getUsers(this.pageSize, this.currentPage).subscribe((data: any) => {
       this.users = data.content;
       this.totalRecords = data.totalElements;
+      this.getHeader();
     })
+  }
+
+  //Get Header from backend
+  getHeader() {
+    this.adminServ.getHeader().subscribe((metadata: string[]) => {
+      this.header = Object.values(metadata).map((key) => {
+        return { field: key, header: key.charAt(0).toUpperCase() + key.slice(1) };
+      });
+      console.log(this.header);
+      this.header.shift();
+    });
   }
 
   // Pagination
