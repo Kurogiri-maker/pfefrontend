@@ -1,0 +1,121 @@
+.pdf-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between; /* Align items to left and right */
+    gap: 1rem; /* Add gap between items */
+}
+  
+.pdf-iframe {
+    background-color: #f5f5f5;
+    border: #f5f5f5;
+    border-radius: 0.75rem;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    flex-basis: 60%;
+    max-width: 60%;
+    height: calc(100vh - 200px); /* Adjust height to fit your needs */
+}
+
+.pdf-buttons {
+    display: flex;
+    flex-direction: column; /* Updated to column */
+    background-color: #f5f5f5;
+    border-radius: 0.75rem;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    flex-basis: 35%;
+    max-width: 35%;
+    height: calc(100vh - 200px); /* Adjust height to fit your needs */
+    justify-content: space-between; /* Align items to left and right */
+    gap: 1rem; /* Add gap between items */
+}
+
+.pdf-buttons button {
+    background-color: #3208b0;
+    height: 50px; /* Set the desired height for the buttons */
+    width: 140px;
+}
+
+.my-transition {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.content-card{
+    background-color: white;
+    border: white;
+    border-radius: 0.75rem;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    height: 50%;
+    width: 100%;
+}
+
+/* Dialog */
+
+.custom-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9998; /* Place the overlay below the dialog container */
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent black overlay */
+  }
+  
+
+.custom-dialog-container {
+    background-color: #ffffff;
+    border: 1px solid #333333;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 0.75rem;
+    max-width: 600px;
+    padding: 0rem;
+    position: fixed;
+    top: 25%;
+    left: 30%;
+    right: 25%;
+    bottom: 25%;
+    z-index: 9999;
+  }
+  
+  .custom-dialog-header {
+    background-color: #3d79f1;
+    border-top-left-radius: 0.7rem; /* Top-left border radius for header */
+    border-top-right-radius: 0.7rem; /* Top-right border radius for header */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 15%;
+  }
+  
+  .custom-dialog-title {
+    padding-left: 5%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .custom-dialog-close {
+    background-color: transparent;
+    border-top-left-radius: 0.7rem; /* Top-left border radius for header */
+    border-top-right-radius: 0.7rem; /* Top-right border radius for header */
+    height: 100%;
+    width: 10%;
+  }
+
+  .custom-dialog-close:hover {
+    /* Update button color to red on hover */
+    background-color: red;
+  }
+  
+  .custom-dialog-content {
+    padding: 5%;
+    display: flex;
+    flex-direction: row; 
+    align-items: left; 
+    justify-content: left; 
+    gap: 1rem;
+  }
+  
+  

@@ -17,7 +17,12 @@ const routes: Routes = [
     {
       path: 'admin', loadChildren: () => import('./demo/components/admin/admin.module')
       .then(m => m.AdminModule)
-    }]
+    },
+    {
+      path: 'pdf', loadChildren: () => import('./demo/components/pdf-upload/pdf-upload.module')
+      .then(m => m.PdfUploadModule )
+    },
+  ]
   },
   {
     path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module')
