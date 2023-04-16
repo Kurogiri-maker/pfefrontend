@@ -19,12 +19,9 @@ export class PdfViewerComponent {
   filename: any;
   public receivedData!: File;
   extractedData: any[] = [];
-  showData1: boolean = false;
-  showData2:boolean = false;
-  content!:string;
+  content: any[] = [];
   getTypeDialog:boolean=false;
   extractedDataDialog:boolean=false;
-  isHovered:boolean=false;
 
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer , private service: PdfViewerService) {}
@@ -44,10 +41,11 @@ export class PdfViewerComponent {
     this.service.getType(this.receivedData).subscribe(
       (event: HttpEvent<any>) => {
         if (event.type === HttpEventType.Response) {
-          //this.showData1 =true;
-          const type = event.body.result;
-          this.content=type;
+          const type = event.body;
           console.log(type);
+          this.content = Object.entries(type).map(([key, value]) => {
+            return { field: key, header: value};
+          });
           this.getTypeDialog=true;
         }
       }
@@ -71,13 +69,6 @@ export class PdfViewerComponent {
     );
   }
 
-  toggleShowData1() {
-    this.showData1 = false;
-  }
-
-  toggleShowData2() {
-    this.showData2 = false;
-  }
 
   exitDialog1(){
     this.getTypeDialog=false;
