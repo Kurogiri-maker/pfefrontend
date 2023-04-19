@@ -20,7 +20,7 @@ export class ReqInterceptor implements HttpInterceptor {
       // console.log("intercepted");
 
       const token = this.cookieService.get('token');
-      console.log(token);
+      //console.log(token);
 
       return next.handle(request.clone({ setHeaders: { Authorization: `Bearer ${token}` } }));
     }
