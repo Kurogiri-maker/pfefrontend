@@ -11,7 +11,7 @@ import { ReqInterceptor } from './demo/service/interceptor/req-interceptor.inter
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

@@ -21,6 +21,7 @@ export class AppMenuComponent implements OnInit {
         items: [
           { label: 'Upload', icon: 'pi pi-fw pi-file-excel', routerLink: ['upload'] },
           { label: 'Files', icon: 'pi pi-fw pi-home', routerLink: ['crud'] },
+          {label: 'Upload a pdf', icon: 'pi pi-fw pi-file-pdf', routerLink: ['pdf']},
           { label: 'sign out', icon: 'pi pi-fw pi-sign-out', routerLink: ['auth/signout'] }
         ]
       },

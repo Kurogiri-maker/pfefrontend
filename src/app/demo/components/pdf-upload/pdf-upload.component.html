@@ -1,0 +1,11 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <h5>Upload a pdf file :</h5>
+            <p-fileUpload #fileUpload  name="file"   [customUpload]="true" (uploadHandler)="onUpload($event)"
+                                [multiple]="false" accept="application/pdf" [maxFileSize]="1000000" >
+            </p-fileUpload>
+            <p-messages [(value)]="uploadMessages"></p-messages>
+        </div>
+    </div>
+</div>

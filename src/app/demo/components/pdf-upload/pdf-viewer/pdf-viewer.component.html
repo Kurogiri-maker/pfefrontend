@@ -1,0 +1,62 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <div class="pdf-container">
+                
+                <iframe [src]="uploadedFile" class="pdf-iframe">
+                </iframe>
+                
+                
+                <div class="pdf-buttons">
+                    <div class="content-card">
+                        <ng-container >
+                            <h5>Click to identify the type of your document</h5>
+                            <button pButton pRipple label="Get Type" icon="pi pi-external-link"  (click)="getType()"></button><br>
+                        </ng-container>
+                    </div>
+                    <div class="content-card">
+                        <ng-container >
+                          <h5>Click to collect data from your document</h5>
+                          <button pButton pRipple label="Collect Data" icon="pi pi-external-link" (click)="collectData()"></button><br>
+                        </ng-container>
+                    </div>   
+                </div>
+            </div>
+            <div *ngIf="getTypeDialog" class="custom-dialog-overlay"></div>
+            <div *ngIf="getTypeDialog" class="custom-dialog-container">
+                <div class="custom-dialog-header">
+                  <div class="custom-dialog-title">Type and metadata</div>
+                  <button pButton icon="pi pi-times" class="custom-dialog-close" (click)="exitDialog1()" ></button>
+                </div>
+                <div class="custom-dialog-content" >
+                    <div *ngFor="let item of content">
+                        <div style="display: flex; flex-direction: row; gap: 1rem; ">
+                            <div style="font-size: 16px; font-weight: bolder; color: #333;">{{item.field}} :</div>
+                            <div style="font-size: 16px; font-weight: bolder; color: #777;">{{item.header}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="extractedDataDialog" class="custom-dialog-overlay"></div>
+            <div *ngIf="extractedDataDialog" class="custom-dialog-container">
+                <div class="custom-dialog-header">
+                  <div class="custom-dialog-title">Data extracted</div>
+                  <button pButton icon="pi pi-times" class="custom-dialog-close" (click)="exitDialog2()" ></button>
+                </div>
+                <div class="custom-dialog-content" >
+                    <div *ngFor="let item of extractedData">
+                        <div style="display: flex; flex-direction: row; gap: 1rem; ">
+                            <div style="font-size: 16px; font-weight: bolder; color: #333;">{{item.field}} :</div>
+                            <div style="font-size: 16px; font-weight: bolder; color: #777;">{{item.header}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+           
+            
+        </div>
+    </div>
+    
+</div>
