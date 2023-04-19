@@ -12,9 +12,9 @@ export class AdminComponent implements OnInit {
 
 
 
-  header: any[] = [
+  header: any[] = [];
 
-  ];
+  viewHeader: any[] = [];
 
   users: any[] = [];
 
@@ -53,6 +53,8 @@ export class AdminComponent implements OnInit {
     this.pageSize = 10;
     this.currentPage = 0;
     this.getUsers();
+
+
   }
 
   //Get Header
@@ -62,6 +64,7 @@ export class AdminComponent implements OnInit {
         return { field: key, header: key.charAt(0).toUpperCase() + key.slice(1) };
       });
       this.header.shift();
+      this.viewHeader = this.header.filter((attr: any) => attr.field !== 'password');
     })
   }
 
@@ -70,6 +73,8 @@ export class AdminComponent implements OnInit {
     this.adminServ.getUsers(this.pageSize, this.currentPage).subscribe((data: any) => {
       this.users = data.content;
       this.totalRecords = data.totalElements;
+      console.log(this.header);
+      console.log(this.viewHeader);
     })
   }
 
@@ -118,7 +123,7 @@ export class AdminComponent implements OnInit {
   //Open updateUser dialog
   editUser(user: any) {
     this.formData["id"] = user["id"];
-    this.header.forEach(col => {
+    this.viewHeader.forEach(col => {
       this.formData[col.field] = user[col.field];
     });
     this.user = {};
@@ -135,10 +140,12 @@ export class AdminComponent implements OnInit {
   //Update a user
   updateUser() {
     this.submitted = true;
-    this.header.forEach(col => {
+    this.viewHeader.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
       if (!this.formData[col.field]) {
         this.submitted = false;
+        console.log(this.formData);
+
         return;
       }
     });
