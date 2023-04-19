@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthRequest } from 'src/app/shared/authRequest';
 import { devenvironment } from 'src/assets/environments/environments.dev';
+import jwt_decode from 'jwt-decode';
+
 
 
 @Injectable({
@@ -34,6 +36,9 @@ export class JwtClientService {
         if (response.status === 200) {
           console.log(response.body.token);
           this.cookieService.set("token", response.body.token);
+          console.log("admin: ", this.isAdmin());
+          console.log("loggedIn: ", this.loggedIn());
+
           return { success: true, error: "" };
         }
         else if (response.status === 400) {
@@ -62,4 +67,24 @@ export class JwtClientService {
       })
     );
   }
+
+  public loggedIn(): boolean {
+    const token = this.cookieService.get("token");
+    return !!token; // return true if token exists, false otherwise
+  }
+
+  public isAdmin(): boolean {
+    const token = this.cookieService.get("token");
+    if (!token) {
+      return false; // user is not logged in, so not an admin
+    }
+    const decodedToken: any = jwt_decode(token);
+    const userRole = decodedToken["role"];
+    console.log("userRole: ", userRole);
+
+    return userRole === "ADMIN";
+
+  }
 }
+
+
