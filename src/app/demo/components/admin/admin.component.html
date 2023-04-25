@@ -1,109 +1,129 @@
 <div class="grid">
-    <div class="col-12">
-        <div class="card px-6 py-6">
-            <p-toast></p-toast>
-            <p-toolbar styleClass="mb-4">
-                <div class="my-2">
-                    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button> 
-                    <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedUsers()" [disabled]="!selectedUsers.length"  ></button>
-                </div>
-            </p-toolbar>
-            <p-table [value]="users" [columns]="header"  responsiveLayout="scroll" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rows]="10" [(selection)]="selectedUsers" selectionMode="multiple" [rowHover]="true" >
-                <ng-template pTemplate="caption">
-                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Manage Users </h5>
-                        <span class="block mt-2 md:mt-0 p-input-icon-left">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" name="searchTerm"  placeholder="Search..." [(ngModel)]="searchTerm" (input)="search()" class="w-full sm:w-auto"/>
-                        </span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header" let-columns>
-                    <tr>
-                        <th style="width: 3rem">
-                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                        </th>
-                        <th *ngFor="let col of columns" [pSortableColumn]="col.field"  >
-                            <div style="display: flex;">
-                                <span >{{col.header}}</span>
-                                <p-sortIcon field="{{col.field}}"  >
-                                </p-sortIcon>
-                            </div>
-                           
-                            </th>
-                        <th></th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-user let-columns="columns">
-                    <tr>
-                        <td>
-                            <p-tableCheckbox [value]="user" ></p-tableCheckbox>
-                        </td>
-                        
-                        <td style="width:14%; min-width:10rem;" *ngFor="let col of columns  ">
-                            {{ user[col.field] }}
-                        </td>
-                        
-                        <td>
-                            <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil"  class="p-button-rounded p-button-success mr-2" (click)="editUser(user)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteUser(user)" ></button>
-                            </div>
-                        </td>
-                    </tr>
-                </ng-template>
-                
-            </p-table>
-            <p-paginator [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" (onPageChange)="paginate($event)">
-            </p-paginator>
-
-            <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true" class="p-fluid">
-                <div class="field" *ngFor="let col of header">
-                    <label for="{{col.field}}">{{col.header}}</label>
-                    <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus >
-                    <small class="ng-dirty ng-invalid" *ngIf=" submitted && !formData[col.field]">{{col.header}} is required.</small>   
-                </div>
-    
-                <ng-template pTemplate="footer">
-                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()" ></button>
-                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveUser()" ></button>
-                </ng-template>
-            </p-dialog>
-
-            <p-dialog [(visible)]="editUserDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"  class="p-fluid">
-                <div class="field" *ngFor="let col of header">
-                    <label for="{{col.field}}">{{col.header}}</label>
-                    <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus >
-                    <small class="ng-dirty ng-invalid" *ngIf=" submitted && !formData[col.field]">{{col.header}} is required.</small>   
-                </div>
-    
-                <ng-template pTemplate="footer">
-                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideEditDialog()" ></button>
-                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateUser()" ></button>
-                </ng-template>
-            </p-dialog>
-
-            <p-dialog [(visible)]="deleteUserDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-                <div class="flex align-items-center justify-content-center">
-                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                    <span >Are you sure you want to delete this user <b></b>?</span>
-                </div>
-                <ng-template pTemplate="footer">
-                    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteUserDialog = false"></button>
-                    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
-                </ng-template>
-            </p-dialog>
-
-            <p-dialog [(visible)]="deleteUsersDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-                <div class="flex align-items-center justify-content-center">
-                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                    <span>Are you sure you want to delete selected users?</span>
-                </div>
-                <ng-template pTemplate="footer">
-                    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteUsersDialog = false"></button>
-                    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
-                </ng-template>
-            </p-dialog>
+  <div class="col-12">
+    <div class="card px-6 py-6">
+      <p-toast></p-toast>
+      <p-toolbar styleClass="mb-4">
+        <div class="my-2">
+          <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2"
+            (click)="openNew()"></button>
+          <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"
+            (click)="deleteSelectedUsers()" [disabled]="!selectedUsers.length"></button>
         </div>
+      </p-toolbar>
+      <p-table [value]="users" [columns]="viewHeader" responsiveLayout="scroll" [totalRecords]="totalRecords"
+        [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rows]="10"
+        [(selection)]="selectedUsers" selectionMode="multiple" [rowHover]="true">
+        <ng-template pTemplate="caption">
+          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 class="m-0">Manage Users </h5>
+            <span class="block mt-2 md:mt-0 p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" name="searchTerm" placeholder="Search..." [(ngModel)]="searchTerm"
+                (input)="search()" class="w-full sm:w-auto" />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              <div style="display: flex;">
+                <span>{{col.header}}</span>
+                <p-sortIcon field="{{col.field}}">
+                </p-sortIcon>
+              </div>
+
+            </th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user let-columns="columns">
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="user"></p-tableCheckbox>
+            </td>
+
+            <td style="width:14%; min-width:10rem;" *ngFor="let col of columns  ">
+              {{ user[col.field] }}
+            </td>
+
+            <td>
+              <div class="flex">
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                  (click)="editUser(user)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                  (click)="deleteUser(user)"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+
+      </p-table>
+      <p-paginator [rows]="10" [totalRecords]="totalRecords" [rowsPerPageOptions]="[10,20,30]"
+        [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        (onPageChange)="paginate($event)">
+      </p-paginator>
+
+      <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"
+        class="p-fluid">
+        <div class="field" *ngFor="let col of header">
+          <label for="{{col.field}}">{{col.header}}</label>
+          <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus>
+          <small class="ng-dirty ng-invalid" *ngIf=" submitted && !formData[col.field]">{{col.header}} is
+            required.</small>
+        </div>
+
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="hideDialog()"></button>
+          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveUser()"></button>
+        </ng-template>
+      </p-dialog>
+
+      <p-dialog [(visible)]="editUserDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"
+        class="p-fluid">
+        <div class="field" *ngFor="let col of viewHeader">
+          <label for="{{col.field}}">{{col.header}}</label>
+          <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus>
+          <small class="ng-dirty ng-invalid" *ngIf=" submitted && !formData[col.field]">{{col.header}} is
+            required.</small>
+        </div>
+
+        <ng-template pTemplate="footer">
+          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+            (click)="hideEditDialog()"></button>
+          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="updateUser()"></button>
+        </ng-template>
+      </p-dialog>
+
+      <p-dialog [(visible)]="deleteUserDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+          <span>Are you sure you want to delete this user <b></b>?</span>
+        </div>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteUserDialog = false"></button>
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDelete()"></button>
+        </ng-template>
+      </p-dialog>
+
+      <p-dialog [(visible)]="deleteUsersDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+          <span>Are you sure you want to delete selected users?</span>
+        </div>
+        <ng-template pTemplate="footer">
+          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
+            (click)="deleteUsersDialog = false"></button>
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
+            (click)="confirmDeleteSelected()"></button>
+        </ng-template>
+      </p-dialog>
     </div>
+  </div>
 </div>

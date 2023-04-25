@@ -12,9 +12,9 @@ export class AdminComponent implements OnInit {
 
 
 
-  header: any[] = [
-   
-  ];
+  header: any[] = [];
+
+  viewHeader: any[] = [];
 
   users: any[] = [];
 
@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit {
 
   totalRecords !: number;
 
-  
+
   pageSize !: number;
 
   currentPage!: number;
@@ -45,7 +45,7 @@ export class AdminComponent implements OnInit {
 
 
 
-  constructor(private adminServ : AdminService ,  private messageService: MessageService) { }
+  constructor(private adminServ: AdminService, private messageService: MessageService) { }
 
 
   ngOnInit(): void {
@@ -53,34 +53,39 @@ export class AdminComponent implements OnInit {
     this.pageSize = 10;
     this.currentPage = 0;
     this.getUsers();
+
+
   }
 
-  //Get Header 
-  getHeader(){
+  //Get Header
+  getHeader() {
     this.adminServ.getHeader().subscribe((metadata: string[]) => {
       this.header = Object.values(metadata).map((key) => {
         return { field: key, header: key.charAt(0).toUpperCase() + key.slice(1) };
       });
       this.header.shift();
+      this.viewHeader = this.header.filter((attr: any) => attr.field !== 'password');
     })
   }
 
-  //Get Users from database 
-  getUsers(){
-    this.adminServ.getUsers(this.pageSize,this.currentPage).subscribe((data : any ) => {
+  //Get Users from database
+  getUsers() {
+    this.adminServ.getUsers(this.pageSize, this.currentPage).subscribe((data: any) => {
       this.users = data.content;
       this.totalRecords = data.totalElements;
+      console.log(this.header);
+      console.log(this.viewHeader);
     })
   }
 
 
   //Open the dialog to create a new user
-  openNew(){
+  openNew() {
     this.user = {};
     this.submitted = false;
     this.userDialog = true;
   }
-  
+
   // hide the dialog
   hideDialog() {
     this.formData = {};
@@ -88,8 +93,8 @@ export class AdminComponent implements OnInit {
     this.submitted = false;
   }
 
-  //Save a user 
-  saveUser(){
+  //Save a user
+  saveUser() {
     this.submitted = true;
     this.header.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
@@ -118,7 +123,7 @@ export class AdminComponent implements OnInit {
   //Open updateUser dialog
   editUser(user: any) {
     this.formData["id"] = user["id"];
-    this.header.forEach(col => {
+    this.viewHeader.forEach(col => {
       this.formData[col.field] = user[col.field];
     });
     this.user = {};
@@ -131,39 +136,41 @@ export class AdminComponent implements OnInit {
     this.editUserDialog = false;
     this.submitted = false;
   }
-  
+
   //Update a user
   updateUser() {
-      this.submitted = true;
-      this.header.forEach(col => {
-        this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
-        if (!this.formData[col.field]) {
-          this.submitted = false;
-          return;
-        }
-      });
-      if (!this.submitted) {
-        this.messageService.add({ severity: 'error', summary: 'error', detail: 'Field missing', life: 3000 });
+    this.submitted = true;
+    this.viewHeader.forEach(col => {
+      this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
+      if (!this.formData[col.field]) {
+        this.submitted = false;
+        console.log(this.formData);
+
         return;
-      } else {
-        this.adminServ.updateUser(this.formData).subscribe({
-          next: (response) => console.log("Response status :" + response),
-          error: (error) => console.log("Error :" + error),
-          complete: () => this.getUsers()
-        }
-  
-        );
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
       }
-      this.formData = {};
-      this.submitted = false;
-      this.editUserDialog = false;
-  
-  
+    });
+    if (!this.submitted) {
+      this.messageService.add({ severity: 'error', summary: 'error', detail: 'Field missing', life: 3000 });
+      return;
+    } else {
+      this.adminServ.updateUser(this.formData).subscribe({
+        next: (response) => console.log("Response status :" + response),
+        error: (error) => console.log("Error :" + error),
+        complete: () => this.getUsers()
+      }
+
+      );
+      this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
+    }
+    this.formData = {};
+    this.submitted = false;
+    this.editUserDialog = false;
+
+
   }
 
   //Delete User
-  deleteUser(user : any){
+  deleteUser(user: any) {
     this.user = user;
     this.deleteUserDialog = true;
 
@@ -180,7 +187,7 @@ export class AdminComponent implements OnInit {
   }
 
 
-  deleteSelectedUsers(){
+  deleteSelectedUsers() {
     this.deleteUsersDialog = true;
   }
 
@@ -194,7 +201,7 @@ export class AdminComponent implements OnInit {
     this.selectedUsers = [];
     this.deleteUsersDialog = false;
     this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Users Deleted', life: 3000 });
-  
+
   }
 
   // Pagination
@@ -214,9 +221,4 @@ export class AdminComponent implements OnInit {
       complete: () => { }
     });
   }
-
-
-
-
-
 }

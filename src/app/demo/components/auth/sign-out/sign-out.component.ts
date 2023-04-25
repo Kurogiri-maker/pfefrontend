@@ -14,8 +14,8 @@ export class SignOutComponent implements OnInit {
   ngOnInit(): void {
     this.cookieService.delete('token');
     setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 5000);
+      this.router.navigate(['/auth/login']);
+    }, 3000);
 
   }
 
