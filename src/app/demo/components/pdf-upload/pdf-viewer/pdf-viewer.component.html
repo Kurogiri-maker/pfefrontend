@@ -19,7 +19,13 @@
                           <h5>Click to collect data from your document</h5>
                           <button pButton pRipple label="Collect Data" icon="pi pi-external-link" (click)="collectData()"></button><br>
                         </ng-container>
-                    </div>   
+                    </div>
+                    <div class="content-card">
+                        <ng-container >
+                            <h5>Click to save your document</h5>
+                            <button pButton pRipple label="Save document" icon="pi pi-external-link"  (click)="getType()"></button><br>
+                        </ng-container>
+                    </div>  
                 </div>
             </div>
             <div *ngIf="getTypeDialog" class="custom-dialog-overlay"></div>
