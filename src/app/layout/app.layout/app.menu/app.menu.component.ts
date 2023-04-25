@@ -16,7 +16,16 @@ export class AppMenuComponent implements OnInit {
   constructor(public layoutService: AppLayoutService, private authService: JwtClientService) { }
 
   ngOnInit() {
-    this.model = [
+    if (this.authService.isAdmin()) {
+      this.model.push({
+        label: 'Admin',
+        items: [
+          { label: 'Gestion des utilisateurs', icon: 'pi pi-fw pi-user', routerLink: ['admin'] }
+        ]
+      })
+    }
+
+    this.model.push(
       {
         label: 'Files manager',
         items: [
@@ -27,16 +36,9 @@ export class AppMenuComponent implements OnInit {
         ]
       }
 
-    ];
+    );
+    console.log(this.model);
 
-    if (this.authService.isAdmin()) {
-      this.model.push({
-        label: 'Admin',
-        items: [
-          { label: 'Gestion des utilisateurs', icon: 'pi pi-fw pi-user', routerLink: ['admin'] }
-        ]
-      })
-    }
 
   }
 
