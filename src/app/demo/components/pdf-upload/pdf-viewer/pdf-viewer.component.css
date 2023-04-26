@@ -77,6 +77,12 @@
     right: 25%;
     bottom: 25%;
     z-index: 9999;
+
+  }
+
+  .custom-dialog-content-wrapper {
+    overflow-y: auto;
+    height: 300px;
   }
   
   .custom-dialog-header {
@@ -117,6 +123,23 @@
     align-items: left; 
     justify-content: left; 
     gap: 1rem;
+
+
   }
   
+
+  .p-dialog-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .p-dialog-cadre {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 1rem;
+    
+  }
   

@@ -19,9 +19,13 @@ export class PdfViewerComponent {
   filename: any;
   public receivedData!: File;
   extractedData: any[] = [];
+  legacyAttributes: any[] = [];
+  additionalAttributes: any[] = [];
   content: any[] = [];
   getTypeDialog:boolean=false;
   extractedDataDialog:boolean=false;
+  coherenceDialog:boolean=false;
+
 
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer , private service: PdfViewerService) {}
@@ -70,12 +74,47 @@ export class PdfViewerComponent {
   }
 
 
+  saveDocument(){
+    const data:any ={
+      "type":"Tiers",
+      "id":null,
+      "numero":"11",
+      "nom":"Inga",
+      "siren":".@yopmail.com",
+      "ref_mandat":"chviz",
+      "attribute1":"111"
+  };
+    this.service.saveDocument(data).subscribe(
+      (event: HttpEvent<any>) => {
+        if (event.type === HttpEventType.Response) {
+          this.coherenceDialog =true;
+          console.log(event.body);
+          const legacy = event.body.legacyAttributes;
+          const additional = event.body.additionalAttributes;
+          this.legacyAttributes = Object.entries(legacy).map(([key, value]) => {
+            return { field: key, header: value};
+          });
+          this.additionalAttributes = Object.entries(additional).map(([key, value]) => {
+            return { field: key, header: value};
+          });
+        }
+          
+      }
+    )
+  }
+
+
   exitDialog1(){
     this.getTypeDialog=false;
   }
 
   exitDialog2(){
     this.extractedDataDialog=false;
+  }
+
+  
+  exitDialog3(){
+    this.coherenceDialog=false;
   }
 
 

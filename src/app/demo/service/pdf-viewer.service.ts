@@ -39,4 +39,14 @@ export class PdfViewerService {
 
     return this.http.request(req);  
   }
+
+
+  saveDocument(data: any){
+    const req = new HttpRequest('POST', `${this.apiUrl}/verify`, data, {
+      reportProgress: false,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
 }
