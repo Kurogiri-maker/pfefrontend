@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class PdfViewerService {
 
-  private apiUrl = 'http://localhost:8086/kafka';
+  private apiUrl = 'http://localhost:8086/ocr';
 
   public file!: File;
 
