@@ -140,7 +140,10 @@
               </p>
             </div>
             <table>
-              <tr style="height: 2.5rem" *ngFor="let item of legacyAttributes">
+              <tr
+                style="height: 2.5rem"
+                *ngFor="let item of additionalAttributes"
+              >
                 <td class="font-medium text-base text-600">{{ item.field }}</td>
                 <td class="font-medium text-base text-900">
                   {{ item.header }}
