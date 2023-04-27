@@ -128,18 +128,6 @@
   }
   
 
-  .p-dialog-footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
 
-  .p-dialog-cadre {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    gap: 1rem;
-    
-  }
+
   

@@ -20,7 +20,8 @@ export class AppMenuComponent implements OnInit {
       this.model.push({
         label: 'Admin',
         items: [
-          { label: 'Gestion des utilisateurs', icon: 'pi pi-fw pi-user', routerLink: ['admin'] }
+          { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: ['dashboard'] },
+          { label: 'User management', icon: 'pi pi-fw pi-users', routerLink: ['admin'] }
         ]
       })
     }
@@ -29,11 +30,9 @@ export class AppMenuComponent implements OnInit {
       {
         label: 'Files manager',
         items: [
-          { label: 'Upload', icon: 'pi pi-fw pi-file-excel', routerLink: ['upload'] },
-          { label: 'Files', icon: 'pi pi-fw pi-home', routerLink: ['crud'] },
-          { label: 'Upload a pdf', icon: 'pi pi-fw pi-file-pdf', routerLink: ['pdf'] },
-          { label: 'sign out', icon: 'pi pi-fw pi-sign-out', routerLink: ['auth/signout'] }
-        ]
+          { label: 'Files', icon: 'pi pi-fw pi-folder', routerLink: ['crud'] },
+          { label: 'CSV Upload', icon: 'pi pi-fw pi-file-excel', routerLink: ['upload'] },
+          { label: 'PDF Upload', icon: 'pi pi-fw pi-file-pdf', routerLink: ['pdf'] }        ]
       }
 
     );

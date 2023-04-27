@@ -24,4 +24,12 @@ export class AppTopbarComponent {
   signIn() {
     this.router.navigate(['auth/login']);
   }
+
+  signOut() {
+    this.router.navigate(['auth/signout']);
+  }
+
+  goHome(){
+    this.router.navigate(['']);
+  }
 }

@@ -100,14 +100,15 @@
 
   <p-dialog
     [(visible)]="coherenceDialog"
-    [style]="{ width: '65%' }"
     header="Document Details"
     [modal]="true"
+    [style]="{ width: '65%' }"
   >
-    <div style="display: inline-block">
-      <div class="ng-tns-c25-11 p-dialog-content" style="padding-bottom: 10%">
+    <div style="display: flex; flex-direction: column">
+      <div class="ng-tns-c25-11 p-dialog-content">
         <section class="flex flex-column w-full mt-4 ng-tns-c25-11">
           <div
+            *ngIf="coherence"
             class="flex justify-content-between align-items-center w-full mb-4"
           >
             <p class="font-semibold text-xl mt-0 mb-0 text-900">
@@ -115,22 +116,26 @@
               Main attributes
             </p>
           </div>
-          <table>
+          <table *ngIf="coherence">
             <tr style="height: 2.5rem" *ngFor="let item of legacyAttributes">
-              <td class="font-medium text-base text-600">{{ item.field }}</td>
-              <td class="font-medium text-base text-900">{{ item.header }}</td>
+              <td class="font-medium text-base text-600" style="width: 40%">
+                {{ item.field }}
+              </td>
+              <td class="font-medium text-base text-900" style="width: 60%">
+                {{ item.header }}
+              </td>
             </tr>
           </table>
           <div class="border-y-1 surface-border py-4 my-4">
-            <p class="font-medium text-lg text-700 mt-0">Description</p>
+            <p class="font-semibold text-xl mt-0 mb-0 text-900">
+              <span class="pi pi-info-circle text-xl text-blue-400 mr-2"></span>
+              Description
+            </p>
             <p class="text-base text-900 mt-0 mb-0">
-              Donec enim diam vulputate ut. Tellus mauris a diam maecenas. At
-              varius vel pharetra vel turpis. Diam sollicitudin tempor id eu
-              nisl nunc mi ipsum faucibus. Amet luctus venenatis lectus magna
-              fringilla urna porttitor rhoncus.
+              {{ message }}
             </p>
           </div>
-          <div class="flex flex-column">
+          <div *ngIf="coherence" class="flex flex-column">
             <div class="flex justify-content-between align-items-center w-full">
               <p class="font-semibold text-xl mt-0 mb-0 text-900">
                 <span
@@ -144,8 +149,16 @@
                 style="height: 2.5rem"
                 *ngFor="let item of additionalAttributes"
               >
-                <td class="font-medium text-base text-600">{{ item.field }}</td>
-                <td class="font-medium text-base text-900">
+                <td style="width: 3%">
+                  <p-checkbox
+                    [value]="item"
+                    [(ngModel)]="selectedItems"
+                  ></p-checkbox>
+                </td>
+                <td class="font-medium text-base text-600" style="width: 37%">
+                  {{ item.field }}
+                </td>
+                <td class="font-medium text-base text-900" style="width: 60%">
                   {{ item.header }}
                 </td>
               </tr>
@@ -159,19 +172,12 @@
         <div
           class="flex border-top-1 pt-5 surface-border justify-content-end align-items-center ng-star-inserted"
         >
-          <button
-            pbutton=""
+          <p-button
             pripple=""
             icon="pi pi-check"
             label="Save"
-            class="p-element p-ripple m-0 p-button p-component"
-          >
-            <span
-              class="p-button-icon p-button-icon-left pi pi-check"
-              aria-hidden="true"
-            ></span
-            ><span class="p-button-label">Save</span><span class="p-ink"></span>
-          </button>
+            (onClick)="save()"
+          ></p-button>
         </div>
         <!---->
       </div>

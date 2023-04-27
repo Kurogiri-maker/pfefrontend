@@ -9,6 +9,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ChipsModule } from 'primeng/chips';
 import { CheckboxModule } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -24,7 +26,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     PdfViewerModule,
     ButtonModule,
     ChipsModule,
-    CheckboxModule
+    CheckboxModule,
+    FormsModule
   ]
 })
 export class PdfUploadModule { }

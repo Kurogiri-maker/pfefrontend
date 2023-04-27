@@ -49,4 +49,14 @@ export class PdfViewerService {
 
     return this.http.request(req);
   }
+
+  saveAttributes(type:string,legacyAttributes:any[],additionalAttributes:any[]){
+    
+    const req = new HttpRequest('POST', `http://localhost:8086/api/csv/${type}`, {'legacy':legacyAttributes,'additional':additionalAttributes}, {
+      reportProgress: false,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
 }
