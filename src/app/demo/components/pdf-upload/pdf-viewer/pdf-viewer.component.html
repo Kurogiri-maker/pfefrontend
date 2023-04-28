@@ -1,62 +1,186 @@
 <div class="grid">
-    <div class="col-12">
-        <div class="card px-6 py-6">
-            <div class="pdf-container">
-                
-                <iframe [src]="uploadedFile" class="pdf-iframe">
-                </iframe>
-                
-                
-                <div class="pdf-buttons">
-                    <div class="content-card">
-                        <ng-container >
-                            <h5>Click to identify the type of your document</h5>
-                            <button pButton pRipple label="Get Type" icon="pi pi-external-link"  (click)="getType()"></button><br>
-                        </ng-container>
-                    </div>
-                    <div class="content-card">
-                        <ng-container >
-                          <h5>Click to collect data from your document</h5>
-                          <button pButton pRipple label="Collect Data" icon="pi pi-external-link" (click)="collectData()"></button><br>
-                        </ng-container>
-                    </div>   
-                </div>
-            </div>
-            <div *ngIf="getTypeDialog" class="custom-dialog-overlay"></div>
-            <div *ngIf="getTypeDialog" class="custom-dialog-container">
-                <div class="custom-dialog-header">
-                  <div class="custom-dialog-title">Type and metadata</div>
-                  <button pButton icon="pi pi-times" class="custom-dialog-close" (click)="exitDialog1()" ></button>
-                </div>
-                <div class="custom-dialog-content" >
-                    <div *ngFor="let item of content">
-                        <div style="display: flex; flex-direction: row; gap: 1rem; ">
-                            <div style="font-size: 16px; font-weight: bolder; color: #333;">{{item.field}} :</div>
-                            <div style="font-size: 16px; font-weight: bolder; color: #777;">{{item.header}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="col-12">
+    <div class="card px-6 py-6">
+      <div class="pdf-container">
+        <iframe [src]="uploadedFile" class="pdf-iframe"> </iframe>
 
-            <div *ngIf="extractedDataDialog" class="custom-dialog-overlay"></div>
-            <div *ngIf="extractedDataDialog" class="custom-dialog-container">
-                <div class="custom-dialog-header">
-                  <div class="custom-dialog-title">Data extracted</div>
-                  <button pButton icon="pi pi-times" class="custom-dialog-close" (click)="exitDialog2()" ></button>
-                </div>
-                <div class="custom-dialog-content" >
-                    <div *ngFor="let item of extractedData">
-                        <div style="display: flex; flex-direction: row; gap: 1rem; ">
-                            <div style="font-size: 16px; font-weight: bolder; color: #333;">{{item.field}} :</div>
-                            <div style="font-size: 16px; font-weight: bolder; color: #777;">{{item.header}}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-           
-            
+        <div class="pdf-buttons">
+          <div class="content-card">
+            <ng-container>
+              <h5>Click to identify the type of your document</h5>
+              <button
+                pButton
+                pRipple
+                label="Get Type"
+                icon="pi pi-external-link"
+                (click)="getType()"
+              ></button
+              ><br />
+            </ng-container>
+          </div>
+          <div class="content-card">
+            <ng-container>
+              <h5>Click to collect data from your document</h5>
+              <button
+                pButton
+                pRipple
+                label="Collect Data"
+                icon="pi pi-external-link"
+                (click)="collectData()"
+              ></button
+              ><br />
+            </ng-container>
+          </div>
+          <div class="content-card">
+            <ng-container>
+              <h5>Click to save your document</h5>
+              <button
+                pButton
+                pRipple
+                label="Save document"
+                icon="pi pi-external-link"
+                (click)="saveDocument()"
+              ></button
+              ><br />
+            </ng-container>
+          </div>
         </div>
+      </div>
+      <div *ngIf="getTypeDialog" class="custom-dialog-overlay"></div>
+      <div *ngIf="getTypeDialog" class="custom-dialog-container">
+        <div class="custom-dialog-header">
+          <div class="custom-dialog-title">Type and metadata</div>
+          <button
+            pButton
+            icon="pi pi-times"
+            class="custom-dialog-close"
+            (click)="exitDialog1()"
+          ></button>
+        </div>
+        <div class="custom-dialog-content">
+          <div *ngFor="let item of content">
+            <div style="display: flex; flex-direction: row; gap: 1rem">
+              <div style="font-size: 16px; font-weight: bolder; color: #333">
+                {{ item.field }} :
+              </div>
+              <div style="font-size: 16px; font-weight: bolder; color: #777">
+                {{ item.header }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="extractedDataDialog" class="custom-dialog-overlay"></div>
+      <div *ngIf="extractedDataDialog" class="custom-dialog-container">
+        <div class="custom-dialog-header">
+          <div class="custom-dialog-title">Data extracted</div>
+          <button
+            pButton
+            icon="pi pi-times"
+            class="custom-dialog-close"
+            (click)="exitDialog2()"
+          ></button>
+        </div>
+        <div class="custom-dialog-content">
+          <div *ngFor="let item of extractedData">
+            <div style="display: flex; flex-direction: row; gap: 1rem">
+              <div style="font-size: 16px; font-weight: bolder; color: #333">
+                {{ item.field }} :
+              </div>
+              <div style="font-size: 16px; font-weight: bolder; color: #777">
+                {{ item.header }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
+  </div>
+
+  <p-dialog
+    [(visible)]="coherenceDialog"
+    header="Document Details"
+    [modal]="true"
+    [style]="{ width: '65%' }"
+  >
+    <div style="display: flex; flex-direction: column">
+      <div class="ng-tns-c25-11 p-dialog-content">
+        <section class="flex flex-column w-full mt-4 ng-tns-c25-11">
+          <div
+            *ngIf="coherence"
+            class="flex justify-content-between align-items-center w-full mb-4"
+          >
+            <p class="font-semibold text-xl mt-0 mb-0 text-900">
+              <span class="pi pi-info-circle text-xl text-blue-400 mr-2"></span>
+              Main attributes
+            </p>
+          </div>
+          <table *ngIf="coherence">
+            <tr style="height: 2.5rem" *ngFor="let item of legacyAttributes">
+              <td class="font-medium text-base text-600" style="width: 40%">
+                {{ item.field }}
+              </td>
+              <td class="font-medium text-base text-900" style="width: 60%">
+                {{ item.header }}
+              </td>
+            </tr>
+          </table>
+          <div class="border-y-1 surface-border py-4 my-4">
+            <p class="font-semibold text-xl mt-0 mb-0 text-900">
+              <span class="pi pi-info-circle text-xl text-blue-400 mr-2"></span>
+              Description
+            </p>
+            <p class="text-base text-900 mt-0 mb-0">
+              {{ message }}
+            </p>
+          </div>
+          <div *ngIf="coherence" class="flex flex-column">
+            <div class="flex justify-content-between align-items-center w-full">
+              <p class="font-semibold text-xl mt-0 mb-0 text-900">
+                <span
+                  class="pi pi-info-circle text-xl text-blue-400 mr-2"
+                ></span>
+                Additional attributes
+              </p>
+            </div>
+            <table>
+              <tr
+                style="height: 2.5rem"
+                *ngFor="let item of additionalAttributes"
+              >
+                <td style="width: 3%">
+                  <p-checkbox
+                    [value]="item"
+                    [(ngModel)]="selectedItems"
+                  ></p-checkbox>
+                </td>
+                <td class="font-medium text-base text-600" style="width: 37%">
+                  {{ item.field }}
+                </td>
+                <td class="font-medium text-base text-900" style="width: 60%">
+                  {{ item.header }}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <!----><!---->
+      </div>
+
+      <div class="p-dialog-footer ng-tns-c25-27 ng-star-inserted">
+        <div
+          class="flex border-top-1 pt-5 surface-border justify-content-end align-items-center ng-star-inserted"
+        >
+          <p-button
+            pripple=""
+            icon="pi pi-check"
+            label="Save"
+            (onClick)="save()"
+          ></p-button>
+        </div>
+        <!---->
+      </div>
+    </div>
+  </p-dialog>
 </div>

@@ -8,6 +8,7 @@ import { HttpEvent , HttpEventType } from '@angular/common/http';
 
 
 
+
 @Component({
   selector: 'app-pdf-viewer',
   templateUrl: './pdf-viewer.component.html',
@@ -19,9 +20,19 @@ export class PdfViewerComponent {
   filename: any;
   public receivedData!: File;
   extractedData: any[] = [];
+  legacyAttributes: any[] = [];
+  additionalAttributes: any[] = [];
   content: any[] = [];
   getTypeDialog:boolean=false;
   extractedDataDialog:boolean=false;
+  coherenceDialog:boolean=false;
+  message !: string;
+  coherence: boolean = true;
+  type!:string;
+  selectedItems: any[] = [];
+
+  
+
 
 
   constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer , private service: PdfViewerService) {}
@@ -70,12 +81,80 @@ export class PdfViewerComponent {
   }
 
 
+  saveDocument(){
+    const data:any ={
+      "type":"Tiers",
+      "id":null,
+      "numero":"12",
+      "nom":"Inga",
+      "siren":".@yopmail.com",
+      "ref_mandat":"chviz",
+      "attribute1":"111",
+      "attribute2":"111",
+      "attribut3":"111"
+
+
+  };
+    this.service.saveDocument(data).subscribe(
+      (event: HttpEvent<any>) => {
+        if (event.type === HttpEventType.Response) {
+          this.coherenceDialog =true;
+          const legacy = event.body.legacyAttributes;
+          const additional = event.body.additionalAttributes;
+          this.message = event.body.message;
+          if(this.message == "Le fichier existe"){
+
+            this.legacyAttributes = Object.entries(legacy).map(([key, value]) => {
+              return { field: key, header: value};
+            });
+            this.additionalAttributes = Object.entries(additional).map(([key, value]) => {
+              return { field: key, header: value};
+            });
+
+          }else if(this.message == "Le fichier n'existe pas. Voulez vous le sauvegardez ?"){
+
+            this.legacyAttributes = Object.entries(legacy).map(([key, value]) => {
+              return { field: key, header: value};
+            });
+            this.legacyAttributes.shift();
+            this.additionalAttributes = Object.entries(additional).map(([key, value]) => {
+              return { field: key, header: value};
+            });
+
+          }else if(this.message == "Le fichier n'est pas cohérent"){
+            this.coherence=false;
+          }
+          
+          
+        }
+          
+      }
+    )
+  }
+
+  save(){
+    console.log("hello");
+    this.service.saveAttributes(this.type,this.legacyAttributes,this.additionalAttributes).subscribe(() => {
+
+    })
+  }
+
+  getSelectedItems() {
+    console.log(this.selectedItems);
+  }
+
+
   exitDialog1(){
     this.getTypeDialog=false;
   }
 
   exitDialog2(){
     this.extractedDataDialog=false;
+  }
+
+  
+  exitDialog3(){
+    this.coherenceDialog=false;
   }
 
 

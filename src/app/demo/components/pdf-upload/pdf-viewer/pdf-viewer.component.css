@@ -77,6 +77,12 @@
     right: 25%;
     bottom: 25%;
     z-index: 9999;
+
+  }
+
+  .custom-dialog-content-wrapper {
+    overflow-y: auto;
+    height: 300px;
   }
   
   .custom-dialog-header {
@@ -117,6 +123,11 @@
     align-items: left; 
     justify-content: left; 
     gap: 1rem;
+
+
   }
   
+
+
+
   

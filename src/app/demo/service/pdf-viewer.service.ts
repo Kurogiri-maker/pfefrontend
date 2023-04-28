@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class PdfViewerService {
 
-  private apiUrl = 'http://localhost:8086/kafka';
+  private apiUrl = 'http://localhost:8086/ocr';
 
   public file!: File;
 
@@ -38,5 +38,25 @@ export class PdfViewerService {
     });
 
     return this.http.request(req);  
+  }
+
+
+  saveDocument(data: any){
+    const req = new HttpRequest('POST', `${this.apiUrl}/verify`, data, {
+      reportProgress: false,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
+  saveAttributes(type:string,legacyAttributes:any[],additionalAttributes:any[]){
+    
+    const req = new HttpRequest('POST', `http://localhost:8086/api/csv/${type}`, {'legacy':legacyAttributes,'additional':additionalAttributes}, {
+      reportProgress: false,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
   }
 }
