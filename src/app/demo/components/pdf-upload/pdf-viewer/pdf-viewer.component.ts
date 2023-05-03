@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PdfViewerService } from 'src/app/demo/service/pdf-viewer.service';
-import { HttpEvent , HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 
 
@@ -23,19 +23,19 @@ export class PdfViewerComponent {
   legacyAttributes: any[] = [];
   additionalAttributes: any[] = [];
   content: any[] = [];
-  getTypeDialog:boolean=false;
-  extractedDataDialog:boolean=false;
-  coherenceDialog:boolean=false;
+  getTypeDialog: boolean = false;
+  extractedDataDialog: boolean = false;
+  coherenceDialog: boolean = false;
   message !: string;
   coherence: boolean = true;
-  type!:string;
+  type!: string;
   selectedItems: any[] = [];
 
-  
 
 
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer , private service: PdfViewerService) {}
+
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private service: PdfViewerService) { }
 
 
   ngOnInit(): void {
@@ -43,37 +43,37 @@ export class PdfViewerComponent {
     // Retrieve the PDF URL from the query parameter
     this.route.queryParams.subscribe(params => {
       const file = params['src'];
-      this.uploadedFile=this.sanitizer.bypassSecurityTrustResourceUrl(file);
-      
+      this.uploadedFile = this.sanitizer.bypassSecurityTrustResourceUrl(file);
+
     });
   }
 
-  getType(){
+  getType() {
     this.service.getType(this.receivedData).subscribe(
       (event: HttpEvent<any>) => {
         if (event.type === HttpEventType.Response) {
           const type = event.body;
           console.log(type);
           this.content = Object.entries(type).map(([key, value]) => {
-            return { field: key, header: value};
+            return { field: key, header: value };
           });
-          this.getTypeDialog=true;
+          this.getTypeDialog = true;
         }
       }
     );
   }
 
-  collectData(){
+  collectData() {
     this.service.collectData(this.receivedData).subscribe(
       (event: HttpEvent<any>) => {
         if (event.type === HttpEventType.Response) {
-          this.extractedDataDialog =true;
+          this.extractedDataDialog = true;
           const collectData = event.body;
           console.log(collectData);
           this.extractedData = Object.entries(collectData).map(([key, value]) => {
-            return { field: key, header: value};
+            return { field: key, header: value };
           });
-          
+
           console.log(this.extractedData);
         }
       }
@@ -81,60 +81,60 @@ export class PdfViewerComponent {
   }
 
 
-  saveDocument(){
-    const data:any ={
-      "type":"Tiers",
-      "id":null,
-      "numero":"12",
-      "nom":"Inga",
-      "siren":".@yopmail.com",
-      "ref_mandat":"chviz",
-      "attribute1":"111",
-      "attribute2":"111",
-      "attribut3":"111"
+  saveDocument() {
+    const data: any = {
+      "type": "Tiers",
+      "id": null,
+      "numero": "12",
+      "nom": "Inga",
+      "siren": ".@yopmail.com",
+      "ref_mandat": "chviz",
+      "attribute1": "111",
+      "attribute2": "111",
+      "attribut3": "111"
 
 
-  };
+    };
     this.service.saveDocument(data).subscribe(
       (event: HttpEvent<any>) => {
         if (event.type === HttpEventType.Response) {
-          this.coherenceDialog =true;
+          this.coherenceDialog = true;
           const legacy = event.body.legacyAttributes;
           const additional = event.body.additionalAttributes;
           this.message = event.body.message;
-          if(this.message == "Le fichier existe"){
+          if (this.message == "Le fichier existe") {
 
             this.legacyAttributes = Object.entries(legacy).map(([key, value]) => {
-              return { field: key, header: value};
+              return { field: key, header: value };
             });
             this.additionalAttributes = Object.entries(additional).map(([key, value]) => {
-              return { field: key, header: value};
+              return { field: key, header: value };
             });
 
-          }else if(this.message == "Le fichier n'existe pas. Voulez vous le sauvegardez ?"){
+          } else if (this.message == "Le fichier n'existe pas. Voulez vous le sauvegardez ?") {
 
             this.legacyAttributes = Object.entries(legacy).map(([key, value]) => {
-              return { field: key, header: value};
+              return { field: key, header: value };
             });
             this.legacyAttributes.shift();
             this.additionalAttributes = Object.entries(additional).map(([key, value]) => {
-              return { field: key, header: value};
+              return { field: key, header: value };
             });
 
-          }else if(this.message == "Le fichier n'est pas cohérent"){
-            this.coherence=false;
+          } else if (this.message == "Le fichier n'est pas cohérent") {
+            this.coherence = false;
           }
-          
-          
+
+
         }
-          
+
       }
     )
   }
 
-  save(){
+  save() {
     console.log("hello");
-    this.service.saveAttributes(this.type,this.legacyAttributes,this.additionalAttributes).subscribe(() => {
+    this.service.saveAttributes(this.type, this.selectedItems).subscribe(() => {
 
     })
   }
@@ -144,21 +144,21 @@ export class PdfViewerComponent {
   }
 
 
-  exitDialog1(){
-    this.getTypeDialog=false;
+  exitDialog1() {
+    this.getTypeDialog = false;
   }
 
-  exitDialog2(){
-    this.extractedDataDialog=false;
-  }
-
-  
-  exitDialog3(){
-    this.coherenceDialog=false;
+  exitDialog2() {
+    this.extractedDataDialog = false;
   }
 
 
-  
-  
+  exitDialog3() {
+    this.coherenceDialog = false;
+  }
+
+
+
+
 
 }
