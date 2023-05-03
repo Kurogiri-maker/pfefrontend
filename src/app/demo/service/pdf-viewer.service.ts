@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class PdfViewerService {
 
-  private apiUrl = 'http://localhost:8086/ocr';
+  private apiUrl = 'http://localhost:8086/api/ocr';
 
   public file!: File;
 
