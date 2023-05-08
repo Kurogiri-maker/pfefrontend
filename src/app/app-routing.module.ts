@@ -23,6 +23,10 @@ const routes: Routes = [
       path: 'pdf', loadChildren: () => import('./demo/components/pdf-upload/pdf-upload.module')
         .then(m => m.PdfUploadModule), canActivate: [JwtAuthGuard]
     },
+    {
+      path: 'dashboard', loadChildren: () => import('./demo/components/datadog-dashboard/datadog-dashboard.module')
+        .then(m => m.DatadogDashboardModule), canActivate: [AdminAuthGuard,JwtAuthGuard]
+    }
     ]
   },
   {
