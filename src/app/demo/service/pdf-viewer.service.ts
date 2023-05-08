@@ -50,9 +50,9 @@ export class PdfViewerService {
     return this.http.request(req);
   }
 
-  saveAttributes(type: string, selectedItems: any[]) {
+  saveAttributes(selectedItems: any[]) {
 
-    const req = new HttpRequest('POST', `http://localhost:8086/api/csv/${type}/attributes`, selectedItems, {
+    const req = new HttpRequest('POST', `http://localhost:8086/api/ocr/attributes`, selectedItems, {
       reportProgress: false,
       responseType: 'json'
     });

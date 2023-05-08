@@ -88,7 +88,7 @@ export class PdfViewerComponent {
       "numero": "12",
       "nom": "Inga",
       "siren": ".@yopmail.com",
-      "ref_mandat": "chviz",
+      "refMandat": "chviz",
       "attribute1": "111",
       "attribute2": "111",
       "attribut3": "111"
@@ -102,6 +102,7 @@ export class PdfViewerComponent {
           const legacy = event.body.legacyAttributes;
           const additional = event.body.additionalAttributes;
           this.message = event.body.message;
+          this.type = event.body.type.toString().toLowerCase();
           if (this.message == "Le fichier existe") {
 
             this.legacyAttributes = Object.entries(legacy).map(([key, value]) => {
@@ -131,10 +132,17 @@ export class PdfViewerComponent {
       }
     )
   }
+  toDictionary(type: string, items: any[]): { [key: string]: any }[] {
+    return items.map((att: string) => ({ type, attribute: att }));
+  }
 
   save() {
-    console.log("hello");
-    this.service.saveAttributes(this.type, this.selectedItems).subscribe(() => {
+
+    console.log(this.selectedItems);
+    console.log(this.toDictionary(this.type, this.selectedItems));
+
+
+    this.service.saveAttributes(this.toDictionary(this.type, this.selectedItems)).subscribe(() => {
 
     })
   }
