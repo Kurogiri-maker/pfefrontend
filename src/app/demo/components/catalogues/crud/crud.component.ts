@@ -23,6 +23,8 @@ export class CrudComponent implements OnInit {
 
   documents: any[] = [];
 
+  content: any[] = [];
+
   selectedDocuments: any[] = [];
 
   document: any = {};
@@ -39,7 +41,7 @@ export class CrudComponent implements OnInit {
 
   documentsOptions: any[] = [];
 
-  valSelect: { name: string, value: number } = { name: 'Tier', value: 1 };
+  valSelect: { name: string, value: number } = { name: 'Tiers', value: 1 };
 
   totalRecords !: number;
 
@@ -49,17 +51,40 @@ export class CrudComponent implements OnInit {
 
   searchTerm!: string;
 
+  additionalAttributesSet: any[] = [];
+
 
   constructor(private crud: CrudService, private messageService: MessageService) { }
 
-  // Get documents after selecting a type (tier,contrat,dossier)
+  // Get documents after selecting a type (tiers,contrat,dossier)
   getDocuments() {
     const val = this.valSelect.name;
     let data = val.charAt(0).toLowerCase() + val.slice(1);
     this.crud.getDocuments(data, this.pageSize, this.currentPage).subscribe((data: any) => {
-      this.documents = data.content;
+      this.content = data.content;
+      this.documents = this.content.map(obj => {
+        const transformedObj: any = {
+          id: obj.id,
+          numero: obj.numero,
+          nom: obj.nom,
+          siren: obj.siren,
+          refMandat: obj.refMandat
+        };
+        obj.additionalAttributesSet.forEach((attr: any) => {
+          transformedObj[attr.cle] = attr.valeur;
+        });
+
+        return transformedObj;
+
+      });
+      console.log("documents: ", this.documents);
+      this.additionalAttributesSet = this.content.map(({ additionalAttributesSet, ...rest }) => additionalAttributesSet);
+      console.log("additionalAttributesSet: ", this.additionalAttributesSet);
+
+
       this.totalRecords = data.totalElements;
       this.getHeader();
+      console.log(data);
     });
   }
 
@@ -245,7 +270,7 @@ export class CrudComponent implements OnInit {
   ngOnInit() {
 
     this.documentsOptions = [
-      { name: 'Tier', value: 1 },
+      { name: 'Tiers', value: 1 },
       { name: 'Contrat', value: 2 },
       { name: 'Dossier', value: 3 }
     ];

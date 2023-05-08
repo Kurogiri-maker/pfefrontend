@@ -7,6 +7,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReqInterceptor } from './demo/service/interceptor/req-interceptor.interceptor';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
 
 
 @NgModule({
@@ -24,7 +26,8 @@ import { ReqInterceptor } from './demo/service/interceptor/req-interceptor.inter
   providers: [
     {
       provide: HTTP_INTERCEPTORS, useClass: ReqInterceptor, multi: true
-    }
+    },
+
   ],
   bootstrap: [AppComponent]
 })

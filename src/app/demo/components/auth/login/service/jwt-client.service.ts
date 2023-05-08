@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { AuthRequest } from 'src/app/shared/authRequest';
 import { devenvironment } from 'src/assets/environments/environments.dev';
 import jwt_decode from 'jwt-decode';
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 
 
@@ -69,8 +70,21 @@ export class JwtClientService {
   }
 
   public loggedIn(): boolean {
+
     const token = this.cookieService.get("token");
-    return !!token; // return true if token exists, false otherwise
+    if (!token) {
+      return false; // user is not logged in
+    }
+    else {
+      const decodedToken: any = jwt_decode(token);
+      const expirationDate = decodedToken["exp"];
+      const current_time = Date.now() / 1000;
+      const expired = expirationDate < current_time;
+      console.log("expired: ", expired);
+      console.log("expirationDate: ", expirationDate);
+      console.log("current_time: ", current_time);
+      return !!token && !expired; // return true if token exists, false otherwise
+    }
   }
 
   public isAdmin(): boolean {

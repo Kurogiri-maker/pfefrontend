@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpRequest , HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -16,32 +16,32 @@ export class PdfViewerService {
 
   constructor(private http: HttpClient) { }
 
-  getType(file: File): Observable<HttpEvent<any>>{
+  getType(file: File): Observable<HttpEvent<any>> {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     const req = new HttpRequest('POST', `${this.apiUrl}/type`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
 
-    return this.http.request(req);  
+    return this.http.request(req);
   }
 
-  collectData(file: File): Observable<HttpEvent<any>>{
+  collectData(file: File): Observable<HttpEvent<any>> {
     const formData = new FormData();
     formData.append('file', file);
-    
+
     const req = new HttpRequest('POST', `${this.apiUrl}/collect`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
 
-    return this.http.request(req);  
+    return this.http.request(req);
   }
 
 
-  saveDocument(data: any){
+  saveDocument(data: any) {
     const req = new HttpRequest('POST', `${this.apiUrl}/verify`, data, {
       reportProgress: false,
       responseType: 'json'
@@ -50,9 +50,9 @@ export class PdfViewerService {
     return this.http.request(req);
   }
 
-  saveAttributes(type:string,legacyAttributes:any[],additionalAttributes:any[]){
-    
-    const req = new HttpRequest('POST', `http://localhost:8086/api/csv/${type}`, {'legacy':legacyAttributes,'additional':additionalAttributes}, {
+  saveAttributes(selectedItems: any[]) {
+
+    const req = new HttpRequest('POST', `http://localhost:8086/api/ocr/attributes`, selectedItems, {
       reportProgress: false,
       responseType: 'json'
     });

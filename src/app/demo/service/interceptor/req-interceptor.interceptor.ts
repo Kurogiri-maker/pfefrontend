@@ -25,9 +25,9 @@ export class ReqInterceptor implements HttpInterceptor {
       return next.handle(request.clone({ setHeaders: { Authorization: `Bearer ${token}` } }));
     }
     else {
-      // if (!this.auth.loggedIn()) {
-      //   console.log("not logged in");
-      // }
+      if (!this.auth.loggedIn()) {
+        this.cookieService.deleteAll();
+      }
       return next.handle(request);
     }
 
