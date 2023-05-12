@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 
 export class FileUploadService {
 
-  private apiUrl = 'http://localhost:8086/api/csv';
+  //private apiUrl = 'http://localhost:8086/api/csv'; 
+  private apiUrl = 'http://talancdz-service:8086/api/csv'; 
 
   constructor(private http: HttpClient) { }
 

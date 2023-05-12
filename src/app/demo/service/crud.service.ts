@@ -10,7 +10,9 @@ import { HttpClient } from '@angular/common/http';
 export class CrudService {
 
 
-  apiUrl = "http://localhost:8086/api/csv"
+  //private apiUrl = "http://localhost:8086/api/csv"
+  private apiUrl = 'http://talancdz-service:8086/api/csv'; 
+
 
   constructor(private http: HttpClient) { }
 

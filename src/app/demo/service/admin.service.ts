@@ -8,7 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class AdminService {
 
-  apiUrl = "http://localhost:8086/api/user"
+  //apiUrl = "http://localhost:8086/api/user"
+  private apiUrl = 'http://talancdz-service:8086/api/user; 
+
+  
 
 
   constructor(private http: HttpClient) { }

@@ -8,7 +8,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiService {
 
-  private baseUrl = 'http://localhost:8086/api/csv/verify';
+  //private baseUrl = 'http://localhost:8086/api/csv/verify';
+  private baseUrl = 'http://talancdz-service:8086/api/csv/verify'; 
+
 
   constructor(private http: HttpClient) { }
 
