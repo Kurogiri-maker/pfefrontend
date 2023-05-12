@@ -61,6 +61,7 @@ export class PdfViewerComponent {
         }
       }
     );
+
   }
 
   collectData() {
@@ -145,6 +146,7 @@ export class PdfViewerComponent {
     this.service.saveAttributes(this.toDictionary(this.type, this.selectedItems)).subscribe(() => {
 
     })
+    this.coherenceDialog = false;
   }
 
   getSelectedItems() {
@@ -152,7 +154,7 @@ export class PdfViewerComponent {
   }
 
 
-  exitDialog1() {
+  hideTypeDialog() {
     this.getTypeDialog = false;
   }
 
@@ -161,7 +163,7 @@ export class PdfViewerComponent {
   }
 
 
-  exitDialog3() {
+  hideCoherenceDialog() {
     this.coherenceDialog = false;
   }
 

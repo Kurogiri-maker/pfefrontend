@@ -12,6 +12,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { MessageService } from 'primeng/api';
+import { InputSwitchModule } from 'primeng/inputswitch';
+
 
 
 
@@ -30,7 +32,8 @@ import { MessageService } from 'primeng/api';
     ToolbarModule,
     DialogModule,
     ToastModule,
-    SelectButtonModule
+    SelectButtonModule,
+    InputSwitchModule
   ],
   providers: [MessageService]
 })

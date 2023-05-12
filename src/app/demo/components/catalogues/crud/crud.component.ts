@@ -53,6 +53,8 @@ export class CrudComponent implements OnInit {
 
   additionalAttributesSet: any[] = [];
 
+  legacyAttributes: any[] = [];
+
 
   constructor(private crud: CrudService, private messageService: MessageService) { }
 
@@ -77,6 +79,8 @@ export class CrudComponent implements OnInit {
         return transformedObj;
 
       });
+      console.log("content: ", this.content);
+
       console.log("documents: ", this.documents);
       this.additionalAttributesSet = this.content.map(({ additionalAttributesSet, ...rest }) => additionalAttributesSet);
       console.log("additionalAttributesSet: ", this.additionalAttributesSet);
@@ -99,6 +103,10 @@ export class CrudComponent implements OnInit {
       });
       console.log(this.documentsColumns);
       this.documentsColumns.shift();
+    });
+    this.crud.getLegacyAttributes(data).subscribe((legacyAttributes: string[]) => {
+      this.legacyAttributes = legacyAttributes;
+      console.log("legacyAttributes: ", this.legacyAttributes);
     });
   }
 
@@ -167,12 +175,13 @@ export class CrudComponent implements OnInit {
   editDocument(document: any) {
     console.log(document);
     this.formData["id"] = document["id"];
+
     this.documentsColumns.forEach(col => {
       this.formData[col.field] = document[col.field];
     });
-    console.log(this.formData);
+    //console.log(this.formData);
     this.document = {};
-    console.log(this.document);
+    //console.log(this.document);
     this.editDocumentDialog = true;
   }
 
@@ -183,16 +192,50 @@ export class CrudComponent implements OnInit {
     this.submitted = true;
     this.documentsColumns.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
-      if (!this.formData[col.field]) {
-        this.submitted = false;
-        return;
-      }
+      // if (!this.formData[col.field]) {
+      //   this.submitted = false;
+      //   return;
+      // }
     });
+    let id = this.formData["id"];
+    let object: any = {};
+    object = this.content.find((obj: any) => obj.id === id);
+    // console.log("objet:  ");
+    // console.log(object);
+    // console.log(this.formData);
+    Object.keys(this.formData).forEach((key: any) => {
+      if (this.legacyAttributes.includes(key)) {
+
+        object[key] = this.formData[key];
+      }
+      else if (this.formData[key] != "") {
+        let index = object.additionalAttributesSet.findIndex((attr: any) => attr.cle == key);
+        console.log(index);
+
+        if (index === -1) {
+          object.additionalAttributesSet.push({ cle: key, valeur: this.formData[key] });
+        }
+
+        object.additionalAttributesSet.forEach((attr: any) => {
+          if (attr.cle === key) {
+            attr.valeur = this.formData[key];
+          }
+        });
+      }
+    }
+
+
+    );
+    console.log("new object: ", object);
+    //console.log(object);
+
+
+
     if (!this.submitted) {
       this.messageService.add({ severity: 'error', summary: 'error', detail: 'Field missing', life: 3000 });
       return;
     } else {
-      this.crud.updateDocument(this.formData, data).subscribe({
+      this.crud.updateDocument(object, data).subscribe({
         next: (response) => console.log("Response status :" + response),
         error: (error) => console.log("Error :" + error),
         complete: () => this.getDocuments()

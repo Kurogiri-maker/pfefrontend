@@ -16,12 +16,17 @@ export class AdminComponent implements OnInit {
 
   viewHeader: any[] = [];
 
+  formViewHeader: any[] = [];
+
+  editViewHeader: any[] = [];
+
   users: any[] = [];
 
   user: any = {};
 
   totalRecords !: number;
 
+  roles: string[] = ["ADMIN", "USER"];
 
   pageSize !: number;
 
@@ -64,7 +69,10 @@ export class AdminComponent implements OnInit {
         return { field: key, header: key.charAt(0).toUpperCase() + key.slice(1) };
       });
       this.header.shift();
-      this.viewHeader = this.header.filter((attr: any) => attr.field !== 'password');
+      this.formViewHeader = this.header.filter((attr: any) => attr.field !== 'password');
+      this.editViewHeader = this.header.filter((attr: any) => attr.field !== 'password' && attr.field !== 'enabled' && attr.field !== 'role');
+      this.viewHeader = this.header.filter((attr: any) => attr.field !== 'password' && attr.field !== 'enabled');
+
     })
   }
 
@@ -73,9 +81,14 @@ export class AdminComponent implements OnInit {
     this.adminServ.getUsers(this.pageSize, this.currentPage).subscribe((data: any) => {
       this.users = data.content;
       this.totalRecords = data.totalElements;
-      console.log(this.header);
       console.log(this.viewHeader);
+      console.log("Users : " + this.users);
+      console.log(this.users[0]);
+
+
     })
+
+
   }
 
 
@@ -123,7 +136,7 @@ export class AdminComponent implements OnInit {
   //Open updateUser dialog
   editUser(user: any) {
     this.formData["id"] = user["id"];
-    this.viewHeader.forEach(col => {
+    this.formViewHeader.forEach(col => {
       this.formData[col.field] = user[col.field];
     });
     this.user = {};
@@ -140,7 +153,7 @@ export class AdminComponent implements OnInit {
   //Update a user
   updateUser() {
     this.submitted = true;
-    this.viewHeader.forEach(col => {
+    this.formViewHeader.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
       if (!this.formData[col.field]) {
         this.submitted = false;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/assets/environments/environments.dev';
 
 
 @Injectable({
@@ -8,8 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class PdfViewerService {
 
-  //private apiUrl = 'http://localhost:8086/api/ocr';
-  private apiUrl = 'http://talancdz-service:8086/api/ocr'; 
+
+  private apiUrl = environment.apiUrl + 'api/ocr';
 
 
   public file!: File;
@@ -54,7 +55,7 @@ export class PdfViewerService {
 
   saveAttributes(selectedItems: any[]) {
 
-    const req = new HttpRequest('POST', `http://localhost:8086/api/ocr/attributes`, selectedItems, {
+    const req = new HttpRequest('POST', `${this.apiUrl}/attributes`, selectedItems, {
       reportProgress: false,
       responseType: 'json'
     });

@@ -27,50 +27,51 @@
           </div>
         </div>
       </div>
-      <div *ngIf="getTypeDialog" class="custom-dialog-overlay"></div>
-      <div *ngIf="getTypeDialog" class="custom-dialog-container">
-        <div class="custom-dialog-header">
-          <div class="custom-dialog-title">Type and metadata</div>
-          <button pButton icon="pi pi-times" class="custom-dialog-close" (click)="exitDialog1()"></button>
-        </div>
-        <div class="custom-dialog-content">
-          <div *ngFor="let item of content">
-            <div style="display: flex; flex-direction: row; gap: 1rem">
-              <div style="font-size: 16px; font-weight: bolder; color: #333">
-                {{ item.field }} :
-              </div>
-              <div style="font-size: 16px; font-weight: bolder; color: #777">
-                {{ item.header }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="extractedDataDialog" class="custom-dialog-overlay"></div>
-      <div *ngIf="extractedDataDialog" class="custom-dialog-container">
-        <div class="custom-dialog-header">
-          <div class="custom-dialog-title">Data extracted</div>
-          <button pButton icon="pi pi-times" class="custom-dialog-close" (click)="exitDialog2()"></button>
-        </div>
-        <div class="custom-dialog-content">
-          <div *ngFor="let item of extractedData">
-            <div style="display: flex; flex-direction: row; gap: 1rem">
-              <div style="font-size: 16px; font-weight: bolder; color: #333">
-                {{ item.field }} :
-              </div>
-              <div style="font-size: 16px; font-weight: bolder; color: #777">
-                {{ item.header }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <p-dialog [visible]="coherenceDialog" header="Document Details" [modal]="true" [style]="{ width: '65%' }">
-    <div style="display: flex; flex-direction: column">
+
+    <p-dialog [(visible)]="getTypeDialog" [style]="{width: '450px'}" header="Type and metadata" [modal]="true"
+      class="p-fluid">
+      <div style="display: flex; flex-direction: row; gap: 1rem">
+        <table>
+          <tr style="height: 2.5rem" *ngFor="let item of content">
+            <td class="font-medium text-base text-600" style="width: 180px">
+              {{ item.field }}
+            </td>
+            <td class="font-medium text-base text-900" style="width: 200px">
+              {{ item.header }}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+          (click)="hideTypeDialog()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="extractedDataDialog" [style]="{width: '450px'}" header="Data extracted" [modal]="true"
+      class="p-fluid">
+      <div style="display: flex; flex-direction: row; gap: 1rem">
+        <table>
+          <tr style="height: 2.5rem" *ngFor="let item of extractedData">
+            <td class="font-medium text-base text-600" style="width: 180px">
+              {{ item.field }}
+            </td>
+            <td class="font-medium text-base text-900" style="width: 200px">
+              {{ item.header }}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+          (click)="exitDialog2()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="coherenceDialog" [style]="{ width: '65%' }" header="Document Details" [modal]="true"
+      class="p-fluid">
       <div class="ng-tns-c25-11 p-dialog-content">
         <section class="flex flex-column w-full mt-4 ng-tns-c25-11">
           <div *ngIf="coherence" class="flex justify-content-between align-items-center w-full mb-4">
@@ -120,15 +121,13 @@
             </table>
           </div>
         </section>
-        <!----><!---->
       </div>
+      <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
+          (click)="hideCoherenceDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
 
-      <div class="p-dialog-footer ng-tns-c25-27 ng-star-inserted">
-        <div class="flex border-top-1 pt-5 surface-border justify-content-end align-items-center ng-star-inserted">
-          <p-button pripple="" icon="pi pi-check" label="Save" (onClick)="save()"></p-button>
-        </div>
-        <!---->
-      </div>
-    </div>
-  </p-dialog>
-</div>
+      </ng-template>
+    </p-dialog>
+
+  </div>
