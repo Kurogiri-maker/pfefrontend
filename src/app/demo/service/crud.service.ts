@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/assets/environments/environments.dev';
 
 
 
@@ -10,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class CrudService {
 
 
-  apiUrl = "http://localhost:8086/api/csv"
+  apiUrl = environment.apiUrl + "api/csv"
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +21,10 @@ export class CrudService {
 
   getHeader(data: string) {
     return this.http.get<string[]>(`${this.apiUrl}/${data}/attributes`)
+  }
+
+  getLegacyAttributes(data: string) {
+    return this.http.get<string[]>(`${this.apiUrl}/${data}/attributes/legacy`)
   }
 
   saveDocument(formattedData: any, data: string): Observable<any> {
@@ -35,7 +40,7 @@ export class CrudService {
     return this.http.delete(`${this.apiUrl}/${data}/${IdDocument}`);
   }
 
-  search(searchTerm:string,data:string){
+  search(searchTerm: string, data: string) {
     return this.http.get<string[]>(`${this.apiUrl}/${data}/find?searchTerm=%25${searchTerm}%25`);
   }
 

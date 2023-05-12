@@ -61,6 +61,7 @@ export class PdfViewerComponent {
         }
       }
     );
+
   }
 
   collectData() {
@@ -153,7 +154,7 @@ export class PdfViewerComponent {
   }
 
 
-  exitDialog1() {
+  hideTypeDialog() {
     this.getTypeDialog = false;
   }
 

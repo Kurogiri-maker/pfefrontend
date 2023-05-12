@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, map, Observable, of } from 'rxjs';
 import { RegisteryRequest } from 'src/app/shared/registeryRequest';
-import { devenvironment } from 'src/assets/environments/environments.dev';
+import { environment } from 'src/assets/environments/environments.dev';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
-  url: String = devenvironment.apiUrl;
+  url: String = environment.apiUrl;
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 

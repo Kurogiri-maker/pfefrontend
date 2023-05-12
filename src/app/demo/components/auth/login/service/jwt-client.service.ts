@@ -4,7 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthRequest } from 'src/app/shared/authRequest';
-import { devenvironment } from 'src/assets/environments/environments.dev';
+import { environment } from 'src/assets/environments/environments.dev';
 import jwt_decode from 'jwt-decode';
 import { JwtHelperService } from "@auth0/angular-jwt";
 
@@ -14,7 +14,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
   providedIn: 'root'
 })
 export class JwtClientService {
-  url: String = devenvironment.apiUrl;
+  url: String = environment.apiUrl;
 
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
@@ -80,9 +80,13 @@ export class JwtClientService {
       const expirationDate = decodedToken["exp"];
       const current_time = Date.now() / 1000;
       const expired = expirationDate < current_time;
-      console.log("expired: ", expired);
-      console.log("expirationDate: ", expirationDate);
-      console.log("current_time: ", current_time);
+      if (expired) {
+        this.cookieService.deleteAll();
+        return false;
+      }
+      // console.log("expired: ", expired);
+      // console.log("expirationDate: ", expirationDate);
+      // console.log("current_time: ", current_time);
       return !!token && !expired; // return true if token exists, false otherwise
     }
   }
