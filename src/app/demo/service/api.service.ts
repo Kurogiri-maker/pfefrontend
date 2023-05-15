@@ -9,6 +9,7 @@ import { environment } from 'src/assets/environments/environments.dev';
 })
 export class ApiService {
 
+
   private baseUrl = environment.apiUrl + 'api/csv/verify';
 
   constructor(private http: HttpClient) { }

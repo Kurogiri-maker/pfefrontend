@@ -9,7 +9,9 @@ import { environment } from 'src/assets/environments/environments.dev';
 })
 export class PdfViewerService {
 
+
   private apiUrl = environment.apiUrl + 'api/ocr';
+
 
   public file!: File;
 

@@ -10,6 +10,7 @@ import { environment } from 'src/assets/environments/environments.dev';
 
 export class FileUploadService {
 
+
   private apiUrl = environment.apiUrl + 'api/csv';
 
   constructor(private http: HttpClient) { }

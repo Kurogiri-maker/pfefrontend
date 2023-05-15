@@ -1,17 +1,23 @@
-# Use a Node.js LTS (Long Term Support) version as the base image
-FROM node:lts-alpine AS builder
+# Use an official Node.js runtime as a parent image
+FROM node:latest
 
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy the artifact from the Jenkins build stage to the container's /app directory
-COPY dist/pfefrontend /app
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# Install http-server for serving the application
-RUN npm install -g http-server
+# Install dependencies
+RUN npm install
 
-# Expose port 4200 for serving the application
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Build the Angular application
+RUN npm run build --prod
+
+# Expose port 4200
 EXPOSE 4200
 
-# Start http-server to serve the application
-CMD ["http-server", "-p", "4200"]
+# Start the server
+CMD ["npm", "start"]

@@ -9,6 +9,7 @@ import { environment } from 'src/assets/environments/environments.dev';
 })
 export class AdminService {
 
+
   apiUrl = environment.apiUrl + "api/user"
 
 
