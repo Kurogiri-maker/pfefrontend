@@ -30,7 +30,7 @@ export class RegisterService {
     return this.generateToken(request).pipe(
       map((response: any) => {
         if (response.status === 200) {
-          console.log(response.body.error);
+
           return { success: true, exists: false };
         }
         else if (response.status === 400) {

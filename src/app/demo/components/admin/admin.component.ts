@@ -10,7 +10,9 @@ import { MessageService } from 'primeng/api';
 })
 export class AdminComponent implements OnInit {
 
+  enabled: boolean = true;
 
+  role: string = "USER";
 
   header: any[] = [];
 
@@ -19,6 +21,8 @@ export class AdminComponent implements OnInit {
   formViewHeader: any[] = [];
 
   editViewHeader: any[] = [];
+
+  addUserHeader: any[] = [];
 
   users: any[] = [];
 
@@ -72,6 +76,7 @@ export class AdminComponent implements OnInit {
       this.formViewHeader = this.header.filter((attr: any) => attr.field !== 'password');
       this.editViewHeader = this.header.filter((attr: any) => attr.field !== 'password' && attr.field !== 'enabled' && attr.field !== 'role');
       this.viewHeader = this.header.filter((attr: any) => attr.field !== 'password' && attr.field !== 'enabled');
+      this.addUserHeader = this.header.filter((attr: any) => attr.field !== 'enabled' && attr.field !== 'role');
 
     })
   }
@@ -81,9 +86,9 @@ export class AdminComponent implements OnInit {
     this.adminServ.getUsers(this.pageSize, this.currentPage).subscribe((data: any) => {
       this.users = data.content;
       this.totalRecords = data.totalElements;
-      console.log(this.viewHeader);
-      console.log("Users : " + this.users);
-      console.log(this.users[0]);
+      console.log("View Header: ", this.viewHeader);
+      console.log("Users : ", this.users);
+
 
 
     })
@@ -109,10 +114,12 @@ export class AdminComponent implements OnInit {
   //Save a user
   saveUser() {
     this.submitted = true;
-    this.header.forEach(col => {
+    this.addUserHeader.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
+
       if (!this.formData[col.field]) {
         this.submitted = false;
+
         return;
       }
     });
@@ -121,8 +128,8 @@ export class AdminComponent implements OnInit {
       return;
     } else {
       this.adminServ.saveUser(this.formData).subscribe({
-        next: (response) => console.log("Response status :" + response),
-        error: (error) => console.log("Error :" + error),
+        next: (response) => console.log("Response status :", response),
+        error: (error) => console.log("Error :", error),
         complete: () => this.getUsers()
       });
       this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000 });
@@ -136,9 +143,14 @@ export class AdminComponent implements OnInit {
   //Open updateUser dialog
   editUser(user: any) {
     this.formData["id"] = user["id"];
-    this.formViewHeader.forEach(col => {
+    this.formData["enabled"] = user["enabled"];
+    this.formData["role"] = user["role"];
+    this.editViewHeader.forEach(col => {
       this.formData[col.field] = user[col.field];
+
     });
+    console.log("form", this.formData);
+
     this.user = {};
     this.editUserDialog = true;
   }
@@ -153,11 +165,13 @@ export class AdminComponent implements OnInit {
   //Update a user
   updateUser() {
     this.submitted = true;
-    this.formViewHeader.forEach(col => {
+    this.editViewHeader.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
+
+
       if (!this.formData[col.field]) {
         this.submitted = false;
-        console.log(this.formData);
+        console.log("missing field", col.field);
 
         return;
       }
@@ -167,8 +181,8 @@ export class AdminComponent implements OnInit {
       return;
     } else {
       this.adminServ.updateUser(this.formData).subscribe({
-        next: (response) => console.log("Response status :" + response),
-        error: (error) => console.log("Error :" + error),
+        next: (response) => console.log("Response status :", response),
+        error: (error) => console.log("Error :", error),
         complete: () => this.getUsers()
       }
 

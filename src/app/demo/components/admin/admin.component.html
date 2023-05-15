@@ -82,13 +82,24 @@
         (onPageChange)="paginate($event)">
       </p-paginator>
 
-      <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"
-        class="p-fluid">
-        <div class="field" *ngFor="let col of header">
+      <p-dialog [(visible)]="userDialog" [style]="{width: '450px'}" header="Add a user" [modal]="true" class="p-fluid">
+        <div class="field" *ngFor="let col of addUserHeader">
           <label for="{{col.field}}">{{col.header}}</label>
           <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus>
           <small class="ng-dirty ng-invalid" *ngIf=" submitted && !formData[col.field]">{{col.header}} is
             required.</small>
+        </div>
+        <div class="field">
+          <label for="role">Role</label>
+          <p-dropdown id="role" [(ngModel)]="formData['role']" [options]="roles" inputId="role"
+            placeholder="Select a Role"></p-dropdown>
+        </div>
+
+        <div class="field">
+          <div style="margin-bottom: 0.5rem;"> <label for="enabled">Enabled</label> </div>
+          <div>
+            <p-inputSwitch id="enabled" [(ngModel)]="formData['enabled']" inputId="enabled"></p-inputSwitch>
+          </div>
         </div>
 
 
@@ -101,6 +112,7 @@
 
       <p-dialog [(visible)]="editUserDialog" [style]="{width: '450px'}" header="User Details" [modal]="true"
         class="p-fluid">
+
         <div class="field" *ngFor="let col of editViewHeader">
           <label for="{{col.field}}">{{col.header}}</label>
           <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus>
@@ -110,14 +122,14 @@
 
         <div class="field">
           <label for="role">Role</label>
-          <p-dropdown [(ngModel)]="formData['role']" [options]="roles" inputId="role"
+          <p-dropdown id="role" [(ngModel)]="formData['role']" [options]="roles" inputId="role"
             placeholder="Select a Role"></p-dropdown>
         </div>
 
         <div class="field">
-          <div style="margin-bottom: 0.5rem;"> <label for="enabled1">Enabled</label> </div>
+          <div style="margin-bottom: 0.5rem;"> <label for="enabled">Enabled</label> </div>
           <div>
-            <p-inputSwitch [(ngModel)]="formData['enabled']" inputId="enabled"></p-inputSwitch>
+            <p-inputSwitch id="enabled" [(ngModel)]="formData['enabled']" inputId="enabled"></p-inputSwitch>
           </div>
         </div>
 
@@ -142,18 +154,6 @@
         </ng-template>
       </p-dialog>
 
-      <p-dialog [(visible)]="deleteUsersDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
-        <div class="flex align-items-center justify-content-center">
-          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-          <span>Are you sure you want to delete selected users?</span>
-        </div>
-        <ng-template pTemplate="footer">
-          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No"
-            (click)="deleteUsersDialog = false"></button>
-          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes"
-            (click)="confirmDeleteSelected()"></button>
-        </ng-template>
-      </p-dialog>
     </div>
   </div>
 </div>

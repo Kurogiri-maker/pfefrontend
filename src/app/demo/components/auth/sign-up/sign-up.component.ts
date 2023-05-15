@@ -32,10 +32,15 @@ export class SignUpComponent {
 
   onSubmit() {
     if (this.registerForm.valid && this.registerForm.get('password')?.value === this.registerForm.get('confirmPassword')?.value) {
-      this.register.fistName = this.registerForm.get('firstName')?.value,
-        this.register.lastName = this.registerForm.get('lastName')?.value,
-        this.register.email = this.registerForm.get('email')?.value,
-        this.register.password = this.registerForm.get('password')?.value
+      this.register.firstName = this.registerForm.get('firstName')?.value;
+      this.register.lastName = this.registerForm.get('lastName')?.value;
+      this.register.email = this.registerForm.get('email')?.value;
+      this.register.password = this.registerForm.get('password')?.value;
+
+      console.log("register:  ", this.register);
+
+
+
       // this.registeryService.signUp(this.register).subscribe(
       //   (response) => {
       //     if (response.success) {
@@ -78,6 +83,7 @@ export class SignUpComponent {
       console.log("Invalid Form");
       this.invalidForm = true;
     }
+    console.log(this.registerForm.value);
 
   }
 }
