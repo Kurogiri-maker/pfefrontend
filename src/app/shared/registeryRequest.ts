@@ -1,5 +1,5 @@
 export class RegisteryRequest {
-  fistName!: string;
+  firstName!: string;
   lastName!: string;
   email!: string;
   password!: string;
