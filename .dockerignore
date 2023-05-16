@@ -1,0 +1,4 @@
+/nodes_modules
+/dist
+.gitignore
+.vscode
