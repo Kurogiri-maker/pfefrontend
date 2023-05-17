@@ -159,7 +159,7 @@ export class PdfViewerComponent {
             this.legacyAttributes = Object.entries(this.legacy).map(([key, value]) => {
               return { field: key, header: value };
             });
-            this.legacyAttributes.shift();
+            // this.legacyAttributes.shift();
             this.additionalAttributes = Object.entries(additional).map(([key, value]) => {
               return { field: key, header: value };
             });

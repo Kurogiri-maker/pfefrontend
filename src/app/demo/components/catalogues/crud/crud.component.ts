@@ -130,6 +130,7 @@ export class CrudComponent implements OnInit {
   // open a dialog to create a new document
   openNew() {
     this.document = {};
+    this.formData = {};
     this.submitted = false;
     this.documentDialog = true;
   }
