@@ -37,6 +37,7 @@ export class PdfViewerComponent {
   dataExtracted: boolean = false;
   possibleSave: boolean = false;
   canHaveAdditionalAttributes: boolean = false;
+  collected: boolean = false;
 
 
 
@@ -95,25 +96,29 @@ export class PdfViewerComponent {
   }
 
   collectData() {
-    this.service.collectData(this.receivedData).subscribe(
-      (event: HttpEvent<any>) => {
-        if (event.type === HttpEventType.Response) {
-          this.extractedDataDialog = true;
-          const collectData = event.body;
-          console.log(collectData);
-          this.extractedData = Object.entries(collectData).map(([key, value]) => {
-            return { field: key, header: value };
-          });
-          this.extractedData.forEach((element: any) => {
-            this.verificationMap[element.field] = element.header;
-          });
-          this.dataExtracted = true;
+    this.extractedDataDialog = true;
+    if (!this.collected) {
+      this.service.collectData(this.receivedData).subscribe(
+        (event: HttpEvent<any>) => {
+          if (event.type === HttpEventType.Response) {
+            this.extractedDataDialog = true;
+            const collectData = event.body;
+            console.log(collectData);
+            this.extractedData = Object.entries(collectData).map(([key, value]) => {
+              return { field: key, header: value };
+            });
+            this.extractedData.forEach((element: any) => {
+              this.verificationMap[element.field] = element.header;
+            });
+            this.dataExtracted = true;
 
-          console.log(this.extractedData);
-          console.log(this.verificationMap);
+            console.log(this.extractedData);
+            console.log(this.verificationMap);
+          }
         }
-      }
-    );
+      );
+    }
+    this.collected = true;
   }
 
 
