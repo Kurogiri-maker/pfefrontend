@@ -58,7 +58,7 @@ export class LoginComponent {
         }
       }
     );
-    console.log(this.failedLogin);
+    //console.log(this.failedLogin);
 
 
   }

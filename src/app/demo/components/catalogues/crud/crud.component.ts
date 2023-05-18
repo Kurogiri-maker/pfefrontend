@@ -61,20 +61,30 @@ export class CrudComponent implements OnInit {
   // Get documents after selecting a type (tiers,contrat,dossier)
   getDocuments() {
     const val = this.valSelect.name;
-    let data = val.charAt(0).toLowerCase() + val.slice(1);
-    this.crud.getDocuments(data, this.pageSize, this.currentPage).subscribe((data: any) => {
+    let type = val.charAt(0).toLowerCase() + val.slice(1);
+    this.crud.getDocuments(type, this.pageSize, this.currentPage).subscribe((data: any) => {
       this.content = data.content;
+
       this.documents = this.content.map(obj => {
-        const transformedObj: any = {
-          id: obj.id,
-          numero: obj.numero,
-          nom: obj.nom,
-          siren: obj.siren,
-          refMandat: obj.refMandat
-        };
+
+        let transformedObj: any = {};
+
+        this.crud.getLegacyAttributes(type).subscribe((legacyAttributes: string[]) => {
+          this.legacyAttributes = legacyAttributes;
+          this.legacyAttributes.forEach((attr: any) => {
+            transformedObj[attr] = obj[attr];
+          });
+        });
+
+        //console.log("transformedObj with legacy attributes:  ", transformedObj);
+
+
         obj.additionalAttributesSet.forEach((attr: any) => {
           transformedObj[attr.cle] = attr.valeur;
         });
+
+        //console.log("transformedObj with all attributes:  ", transformedObj);
+
 
         return transformedObj;
 
@@ -120,6 +130,7 @@ export class CrudComponent implements OnInit {
   // open a dialog to create a new document
   openNew() {
     this.document = {};
+    this.formData = {};
     this.submitted = false;
     this.documentDialog = true;
   }

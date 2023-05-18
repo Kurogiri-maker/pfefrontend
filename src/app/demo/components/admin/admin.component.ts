@@ -100,6 +100,7 @@ export class AdminComponent implements OnInit {
   //Open the dialog to create a new user
   openNew() {
     this.user = {};
+    this.formData = {};
     this.submitted = false;
     this.userDialog = true;
   }
@@ -113,6 +114,7 @@ export class AdminComponent implements OnInit {
 
   //Save a user
   saveUser() {
+
     this.submitted = true;
     this.addUserHeader.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;

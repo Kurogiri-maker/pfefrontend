@@ -81,6 +81,7 @@ export class JwtClientService {
       const current_time = Date.now() / 1000;
       const expired = expirationDate < current_time;
       if (expired) {
+        console.log("token expired");
         this.cookieService.deleteAll();
         return false;
       }
