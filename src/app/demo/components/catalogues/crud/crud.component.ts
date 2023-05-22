@@ -54,6 +54,8 @@ export class CrudComponent implements OnInit {
   additionalAttributesSet: any[] = [];
 
   legacyAttributes: any[] = [];
+  addDialogLegacyAttributes: any[] = [];
+  addDialogHeader: any[] = [];
 
 
   constructor(private crud: CrudService, private messageService: MessageService) { }
@@ -117,7 +119,16 @@ export class CrudComponent implements OnInit {
     this.crud.getLegacyAttributes(data).subscribe((legacyAttributes: string[]) => {
       this.legacyAttributes = legacyAttributes;
       console.log("legacyAttributes: ", this.legacyAttributes);
+      this.addDialogLegacyAttributes = this.legacyAttributes
+      this.addDialogLegacyAttributes.shift();
+      this.addDialogHeader = Object.values(this.addDialogLegacyAttributes).map((key) => {
+        return { field: key, header: key.charAt(0).toUpperCase() + key.slice(1) };
+      });
+      console.log("addDialogHeader: ", this.addDialogHeader);
     });
+
+
+
   }
 
   // Pagination
@@ -156,7 +167,7 @@ export class CrudComponent implements OnInit {
     const val = this.valSelect.name;
     let data = val.charAt(0).toLowerCase() + val.slice(1);
     this.submitted = true;
-    this.documentsColumns.forEach(col => {
+    this.addDialogHeader.forEach(col => {
       this.formData[col.field] = (<HTMLInputElement>document.getElementById(col.field)).value;
       if (!this.formData[col.field]) {
         this.submitted = false;
@@ -332,6 +343,7 @@ export class CrudComponent implements OnInit {
     this.pageSize = 10;
     this.currentPage = 0;
     this.getDocuments();
+    this.getHeader();
 
 
   }
