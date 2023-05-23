@@ -72,7 +72,7 @@
 
       <p-dialog [(visible)]="documentDialog" [style]="{width: '450px'}" header="Document Details" [modal]="true"
         class="p-fluid">
-        <div class="field" *ngFor="let col of documentsColumns">
+        <div class="field" *ngFor="let col of addDialogHeader">
           <label for="{{col.field}}">{{col.header}}</label>
           <input type="text" pInputText id="{{col.field}}" [(ngModel)]="formData[col.field]" required autofocus>
           <small class="ng-dirty ng-invalid" *ngIf=" submitted && !formData[col.field]">{{col.header}} is
