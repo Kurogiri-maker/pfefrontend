@@ -230,7 +230,7 @@ export class CrudComponent implements OnInit {
 
         object[key] = this.formData[key];
       }
-      else if (this.formData[key] != "") {
+      else if ((this.formData[key] != "") && (key != "id")) {
         let index = object.additionalAttributesSet.findIndex((attr: any) => attr.cle == key);
         console.log(index);
 
