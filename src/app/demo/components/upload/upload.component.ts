@@ -33,8 +33,29 @@ export class UploadComponent implements OnInit, OnDestroy {
     let data = this.valSelect.name;
     data = data.charAt(0).toLowerCase() + data.slice(1);
     console.log(data);
-    this.fileUploadService.uploadFile(file, data).subscribe(
-      (event: HttpEvent<any>) => {
+    // this.fileUploadService.uploadFile(file, data).subscribe(
+    //   (event: HttpEvent<any>) => {
+    //     if (event.type === HttpEventType.Response) {
+    //       const message = event.body.message; // get the message from the response body
+    //       this.fileUpload.clear();
+    //       this.uploadMessages = [{ severity: 'success', summary: 'Success', detail: message }];
+    //       setTimeout(() => {
+    //         this.uploadMessages = [];
+    //       }, 5000);
+    //     }
+    //   },
+    //   (error) => {
+    //     const message = error.error.message; // get the message from the error response
+    //     this.fileUpload.clear();
+    //     this.uploadMessages = [{ severity: 'error', summary: 'Error', detail: message }];
+    //   }
+    // );
+
+    this.fileUploadService.uploadFile(file, data).subscribe({
+      next: (event: HttpEvent<any>) => {
+        console.log("event type:   ", event.type);
+        console.log("response :   ", HttpEventType.Response);
+        (HttpEventType.Response)
         if (event.type === HttpEventType.Response) {
           const message = event.body.message; // get the message from the response body
           this.fileUpload.clear();
@@ -44,12 +65,21 @@ export class UploadComponent implements OnInit, OnDestroy {
           }, 5000);
         }
       },
-      (error) => {
+      error: (error) => {
         const message = error.error.message; // get the message from the error response
         this.fileUpload.clear();
         this.uploadMessages = [{ severity: 'error', summary: 'Error', detail: message }];
+        setTimeout(() => {
+          this.uploadMessages = [];
+        }, 5000);
+      },
+      complete: () => {
+        console.log("Completed");
+        this.fileUpload.clear();
       }
+    }
     );
+
   }
 
 
