@@ -50,6 +50,9 @@ export class UploadComponent implements OnInit, OnDestroy {
         const message = error.error.message; // get the message from the error response
         this.fileUpload.clear();
         this.uploadMessages = [{ severity: 'error', summary: 'Error', detail: message }];
+        setTimeout(() => {
+          this.uploadMessages = [];
+        }, 5000);
       },
       complete: () => {
         console.log("Completed");
@@ -57,6 +60,7 @@ export class UploadComponent implements OnInit, OnDestroy {
       }
     }
     );
+
   }
 
 
