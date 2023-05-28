@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { FileUploadService } from '../../service/file-upload.service';
 import { Message } from 'primeng/api';
@@ -33,8 +33,10 @@ export class UploadComponent implements OnInit, OnDestroy {
     let data = this.valSelect.name;
     data = data.charAt(0).toLowerCase() + data.slice(1);
     console.log(data);
-    this.fileUploadService.uploadFile(file, data).subscribe(
-      (event: HttpEvent<any>) => {
+    this.fileUploadService.uploadFile(file, data).subscribe({
+      next: (event: HttpEvent<any>) => {
+        console.log("event type:   ", event.type);
+        console.log("response :   ", HttpEventType.Response);
         if (event.type === HttpEventType.Response) {
           const message = event.body.message; // get the message from the response body
           this.fileUpload.clear();
@@ -44,11 +46,16 @@ export class UploadComponent implements OnInit, OnDestroy {
           }, 5000);
         }
       },
-      (error) => {
+      error: (error) => {
         const message = error.error.message; // get the message from the error response
         this.fileUpload.clear();
         this.uploadMessages = [{ severity: 'error', summary: 'Error', detail: message }];
+      },
+      complete: () => {
+        console.log("Completed");
+        this.fileUpload.clear();
       }
+    }
     );
   }
 
