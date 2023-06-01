@@ -144,7 +144,7 @@ export class PdfViewerComponent {
           const additional = event.body.additionalAttributes;
           this.message = event.body.message;
           this.type = event.body.type.toString().toLowerCase();
-          if (this.message == "Le fichier existe") {
+          if (this.message == "The file does  exist") {
 
             this.legacyAttributes = Object.entries(this.legacy).map(([key, value]) => {
               return { field: key, header: value };
@@ -154,7 +154,7 @@ export class PdfViewerComponent {
             });
             this.canHaveAdditionalAttributes = true;
 
-          } else if (this.message == "Le fichier n'existe pas. Voulez vous le sauvegardez ?") {
+          } else if (this.message == "The file does not exist. Do you want to save it?") {
 
             this.legacyAttributes = Object.entries(this.legacy).map(([key, value]) => {
               return { field: key, header: value };
@@ -167,7 +167,7 @@ export class PdfViewerComponent {
             this.possibleSave = true;
             this.canHaveAdditionalAttributes = true;
 
-          } else if (this.message == "Le fichier n'est pas cohérent") {
+          } else if (this.message == "The file is not consistent") {
             this.coherence = false;
           }
 

@@ -2,27 +2,45 @@
   <div class="col-12">
     <div class="card px-6 py-6">
       <div class="pdf-container">
-
-
         <div class="pdf-buttons">
           <div class="content-card">
             <ng-container>
               <h5>Click to identify the type of your document</h5>
-              <button pButton pRipple label="Get Type" icon="pi pi-external-link" (click)="getType()"></button><br />
+              <button
+                pButton
+                pRipple
+                label="Get Type"
+                icon="pi pi-external-link"
+                (click)="getType()"
+              ></button
+              ><br />
             </ng-container>
           </div>
           <div class="content-card">
             <ng-container>
               <h5>Click to collect data from your document</h5>
-              <button pButton pRipple label="Collect Data" icon="pi pi-external-link"
-                (click)="collectData()"></button><br />
+              <button
+                pButton
+                pRipple
+                label="Collect Data"
+                icon="pi pi-external-link"
+                (click)="collectData()"
+              ></button
+              ><br />
             </ng-container>
           </div>
           <div class="content-card">
             <ng-container>
               <h5>Click to save your document</h5>
-              <button pButton pRipple label="Save document" icon="pi pi-external-link" (click)="saveDocument()"
-                [disabled]="!haveType || !dataExtracted"></button><br />
+              <button
+                pButton
+                pRipple
+                label="Save document"
+                icon="pi pi-external-link"
+                (click)="saveDocument()"
+                [disabled]="!haveType || !dataExtracted"
+              ></button
+              ><br />
             </ng-container>
           </div>
         </div>
@@ -30,9 +48,13 @@
       </div>
     </div>
 
-
-    <p-dialog [(visible)]="getTypeDialog" [style]="{width: '450px'}" header="Type and metadata" [modal]="true"
-      class="p-fluid">
+    <p-dialog
+      [(visible)]="getTypeDialog"
+      [style]="{ width: '450px' }"
+      header="Type and metadata"
+      [modal]="true"
+      class="p-fluid"
+    >
       <div style="display: flex; flex-direction: row; gap: 1rem">
         <table>
           <tr style="height: 2.5rem" *ngFor="let item of content">
@@ -46,13 +68,24 @@
         </table>
       </div>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-          (click)="hideTypeDialog()"></button>
+        <button
+          pButton
+          pRipple
+          label="Confirm"
+          icon="pi pi-check"
+          class="p-button-text"
+          (click)="hideTypeDialog()"
+        ></button>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="extractedDataDialog" [style]="{width: '450px'}" header="Data extracted" [modal]="true"
-      class="p-fluid">
+    <p-dialog
+      [(visible)]="extractedDataDialog"
+      [style]="{ width: '450px' }"
+      header="Data extracted"
+      [modal]="true"
+      class="p-fluid"
+    >
       <div style="display: flex; flex-direction: row; gap: 1rem">
         <table>
           <tr style="height: 2.5rem" *ngFor="let item of extractedData">
@@ -66,16 +99,30 @@
         </table>
       </div>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-          (click)="exitDialog2()"></button>
+        <button
+          pButton
+          pRipple
+          label="Confirm"
+          icon="pi pi-check"
+          class="p-button-text"
+          (click)="exitDialog2()"
+        ></button>
       </ng-template>
     </p-dialog>
 
-    <p-dialog [(visible)]="coherenceDialog" [style]="{ width: '65%' }" header="Document Details" [modal]="true"
-      class="p-fluid">
+    <p-dialog
+      [(visible)]="coherenceDialog"
+      [style]="{ width: '65%' }"
+      header="Document Details"
+      [modal]="true"
+      class="p-fluid"
+    >
       <div class="ng-tns-c25-11 p-dialog-content">
         <section class="flex flex-column w-full mt-4 ng-tns-c25-11">
-          <div *ngIf="coherence" class="flex justify-content-between align-items-center w-full mb-4">
+          <div
+            *ngIf="coherence"
+            class="flex justify-content-between align-items-center w-full mb-4"
+          >
             <p class="font-semibold text-xl mt-0 mb-0 text-900">
               <span class="pi pi-info-circle text-xl text-blue-400 mr-2"></span>
               Main attributes
@@ -103,14 +150,22 @@
           <div *ngIf="coherence" class="flex flex-column">
             <div class="flex justify-content-between align-items-center w-full">
               <p class="font-semibold text-xl mt-0 mb-0 text-900">
-                <span class="pi pi-info-circle text-xl text-blue-400 mr-2"></span>
+                <span
+                  class="pi pi-info-circle text-xl text-blue-400 mr-2"
+                ></span>
                 Additional attributes
               </p>
             </div>
             <table>
-              <tr style="height: 2.5rem" *ngFor="let item of additionalAttributes">
+              <tr
+                style="height: 2.5rem"
+                *ngFor="let item of additionalAttributes"
+              >
                 <td style="width: 3%">
-                  <p-checkbox [value]="item.field" [(ngModel)]="selectedItems"></p-checkbox>
+                  <p-checkbox
+                    [value]="item.field"
+                    [(ngModel)]="selectedItems"
+                  ></p-checkbox>
                 </td>
                 <td class="font-medium text-base text-600" style="width: 37%">
                   {{ item.field }}
@@ -124,11 +179,23 @@
         </section>
       </div>
       <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-          (click)="hideCoherenceDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
-
+        <button
+          pButton
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text"
+          (click)="hideCoherenceDialog()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text"
+          (click)="save()"
+        ></button>
       </ng-template>
     </p-dialog>
-
   </div>
+</div>
