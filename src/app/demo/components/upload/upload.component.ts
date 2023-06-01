@@ -71,7 +71,7 @@ export class UploadComponent implements OnInit, OnDestroy {
         this.uploadMessages = [{ severity: 'error', summary: 'Error', detail: message }];
         setTimeout(() => {
           this.uploadMessages = [];
-        }, 5000);
+        }, 3000);
       },
       complete: () => {
         console.log("Completed");

@@ -8,6 +8,7 @@ import { AppMenuitemComponent } from './app.menu/app.menuitem.component';
 import { RouterModule } from '@angular/router';
 import { AppConfigModule } from '../config/app.config/app.config.module';
 import { AppLayoutRoutingModule } from './app.layout-routing.module';
+import { AppFooterComponent } from './app.footer/app.footer.component';
 
 
 
@@ -19,6 +20,7 @@ import { AppLayoutRoutingModule } from './app.layout-routing.module';
     AppSidebarComponent,
     AppMenuComponent,
     AppMenuitemComponent,
+    AppFooterComponent
   ],
   imports: [
     CommonModule,
